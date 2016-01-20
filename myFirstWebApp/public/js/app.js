@@ -1,16 +1,17 @@
 
   function addLastName(){
 
-    var lastNameElem = document.createElements('span');
+    var lastNameElem =
+       document.createElement('span');
 
-    var lastNameText = document.createTextNod('Rogers');
+    var lastNameText = 
+      document.createTextNode('Rogers');
 
     lastNameElem.id = 'myLastName';
-    lastNameElem.appendChild(lastNameText);
+      lastNameElem.appendChild(lastNameText);
 
     var myNameElem = document.getElementById('myName');
-
-    myNameElem.appendchilde(lastNameElem);
+      myNameElem.appendChild(lastNameElem);
 
     console.log('last name added');
   }
