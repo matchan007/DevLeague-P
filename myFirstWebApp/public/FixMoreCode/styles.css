@@ -1,0 +1,156 @@
+@import url(http://fonts.googleapis.com/css?family=Ubuntu|Courgette);
+
+body{
+	background-image: url('images/light_grey.png');
+	padding: 40px 0 30px;
+	margin: 0;
+	max-width: 530px;
+	margin: auto;
+}
+
+h1, h2, h3, h4, h5, h6{
+	font-family: 'Courgette', cursive;
+	line-height: auto;
+	text-align: center;
+}
+
+p{
+	font-family: 'Times New Roman', serif;
+	font-size: 30px;
+	line-height: 15px;
+	color: #694814;
+	text-align: right;
+}
+
+p.poem{
+	font-family: 'Ubuntu', sans-serif;
+	text-align: center;
+	line-height: 27px;
+	margin-bottom: 30px;
+	color: #777;
+	font-size: 15px;
+}
+
+ul{
+	padding: 0;
+	margin: 0;
+}
+
+li{
+	font-family: 'Times New Roman', serif;
+	font-size: 30px;
+	line-height: 15px;
+	color: #694814;
+	text-align: right;
+}
+
+ul li{
+	font-family: 'Courgette', cursive;
+	list-style-type: none;
+	display: block;
+	margin-bottom: 20px;
+	border: 4px solid #78C2C2;
+	text-align: center;
+	font-size: 18px;
+	line-height: 26px;
+	padding: 60px 80px;
+	border-radius: 5px;
+	color: #509494;
+	background-color: #8DD6D6;
+}
+
+ul li:nth-child(1){
+	text-align: left;
+	padding-left: 190px;
+	background-image: url('images/star-01.png');
+	background-position: 40px center;
+	background-repeat: no-repeat;
+	border-color: #E5E980;
+	background-color: #FFFFE0;
+	color: #BCB12C;
+}
+
+ul li:nth-child(2){
+	text-align: left;
+	padding-left: 190px;
+	background-image: url('images/star-02.png');
+	background-position: 40px center;
+	background-repeat: no-repeat;
+	border-color: #F58A80;
+	background-color: #FFE0E0;
+	color: #EE442F;
+}
+
+ul li:nth-child(3){
+	text-align: left;
+	padding-left: 190px;
+	background-image: url('images/star-03.png');
+	background-position: 60px center;
+	background-repeat: no-repeat;
+	border-color: #FFD26B;
+	background-color: #FAE1A7;
+	color: #EB8A2B;
+}
+
+ul li:nth-child(4){
+	text-align: left;
+	padding-left: 190px;
+	background-image: url('images/star-04.png');
+	background-position: 60px center;
+	background-repeat: no-repeat;
+	border-color: #B7D776;
+	background-color: #E6F7C3;
+	color: #72C04B;
+}
+
+h1{
+	font-size: 40px;
+	color: #BCB12C;
+}
+
+h2{
+	font-size: 17px;
+	width: 300px;
+	margin: auto;
+	color: #AAA;
+	margin-top: 50px;
+	margin-bottom: 80px;
+}
+
+div{
+	background-color: red;
+	width: 500px;
+	height: 5px;
+}
+
+#shine1, #shine2, #shine3, #shine4, #shine5{
+	width: 150px;
+	height: 150px;
+	margin: 10px auto;
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+
+#shine1{
+	background-image: url('images/star-01.png');
+}
+
+#shine2{
+	background-image: url('images/star-02.png');
+}
+
+#shine3{
+	background-image: url('images/star-03.png');
+}
+
+#shine4{
+	background-image: url('images/star-04.png');
+}
+
+#shine5{
+	background-image: url('images/star-05.png');
+}
+
+
+
