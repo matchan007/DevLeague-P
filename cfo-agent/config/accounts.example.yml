@@ -1,0 +1,91 @@
+# TEMPLATE ONLY — placeholders. Copy to `accounts.yml` and fill in real values.
+#
+#   cp cfo-agent/config/accounts.example.yml cfo-agent/config/accounts.yml
+#
+# `accounts.yml` is gitignored. THIS REPO IS PUBLIC — never commit real account
+# numbers, balances, institution logins, or accountant contact details.
+#
+# Store last-4 only. The agent never needs a full account number; it needs enough
+# to match a Tiller account name or a statement email to the right entity.
+
+entities:
+  - key: PERSONAL
+    name: "<your name>, personally"
+    country: US
+    currency: USD
+    books: tiller
+    fiscal_year_end: "12-31"
+
+  - key: RBRIDGE
+    name: "<US LLC name>"
+    country: US
+    currency: USD
+    books: quickbooks
+    quickbooks_company_id_last4: "XXXX"
+    fiscal_year_end: "12-31"
+
+  - key: SIDE3
+    name: "<JP KK name>"
+    country: JP
+    currency: JPY
+    books: asc
+    accountant:
+      firm: "<tax firm>"
+      contact_email: "<name@firm.example>"
+      portal: "<portal url>"
+    fiscal_year_end: "MM-DD"
+
+accounts:
+  - id: checking-primary
+    entity: PERSONAL
+    institution: "<bank>"
+    type: checking
+    last4: "0000"
+    currency: USD
+    feed: tiller              # tiller | email | manual | none
+    tiller_account_name: "<exact name as it appears in Tiller>"
+    statement_sender: "<alerts@bank.example>"
+
+  - id: card-personal
+    entity: PERSONAL
+    institution: "<issuer>"
+    type: credit_card
+    last4: "0000"
+    currency: USD
+    feed: tiller
+    autopay: true
+    statement_day: 4          # day of month the statement email arrives
+
+  - id: card-business
+    entity: RBRIDGE
+    institution: "<issuer>"
+    type: credit_card
+    last4: "0000"
+    currency: USD
+    feed: tiller
+    autopay: true
+
+  - id: brokerage
+    entity: PERSONAL
+    institution: "<brokerage>"
+    type: brokerage
+    last4: "0000"
+    currency: USD
+    feed: email               # statements only; no transaction feed
+    note: "Statement-available alerts only. Balances require login."
+
+  - id: jp-bank
+    entity: SIDE3
+    institution: "<JP bank>"
+    type: checking
+    last4: "0000"
+    currency: JPY
+    feed: manual              # no automatic feed exists — see reference/japan-feed-options.md
+    note: >
+      Notification emails announce that a transfer was accepted but contain NO
+      amount. Never treat one as a transaction.
+
+# Accounts deliberately excluded from the ledger (and why).
+excluded:
+  - id: <account id>
+    reason: "<e.g. dormant since YYYY / not Leo's money / trust managed by third party>"

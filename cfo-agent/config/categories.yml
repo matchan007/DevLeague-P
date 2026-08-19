@@ -1,0 +1,152 @@
+# Canonical expense categories for the CFO agent.
+#
+# One taxonomy, three destinations. Every row categorized here can flow to
+# QuickBooks (R Bridge), to ASC (サイドスリー), or to a personal budget view
+# without re-work. `legacy` lists the labels Leo's older expense reports used,
+# so historical sheets can be migrated without hand-mapping.
+#
+# Safe to commit: contains no account data.
+
+meta:
+  version: 1
+  default_uncategorized: Uncategorized
+
+categories:
+  - key: Meals
+    label: Meals & Entertainment
+    qbo: "Meals and Entertainment"
+    jp: "会議費"
+    jp_alt: "接待交際費"   # use when clients/guests are hosted
+    legacy: [Meals, "Food/Drinks", "HTL/MEAL", "SNACK/BEV"]
+    deductible: likely
+    note: US meals are partially deductible; entertainment generally is not. Ask CPA.
+
+  - key: Travel
+    label: Travel (air, rail, lodging)
+    qbo: "Travel"
+    jp: "旅費交通費"
+    legacy: [Travel]
+    deductible: likely
+
+  - key: Transportation
+    label: Local transport, rideshare, parking, fuel
+    qbo: "Automobile Expense"
+    jp: "旅費交通費"
+    legacy: [Transportation, Parking, "AUTO EX"]
+    deductible: likely
+
+  - key: Supplies
+    label: Supplies & consumables
+    qbo: "Office Supplies"
+    jp: "消耗品費"
+    legacy: [Supplies, "Groceries/Supplies", "PROD SUP", OFFICE]
+    deductible: likely
+
+  - key: Software
+    label: Software & SaaS subscriptions
+    qbo: "Dues and Subscriptions"
+    jp: "通信費"
+    legacy: []
+    deductible: likely
+
+  - key: Professional
+    label: Professional fees (legal, accounting, consulting)
+    qbo: "Legal and Professional Fees"
+    jp: "支払手数料"
+    legacy: []
+    deductible: likely
+
+  - key: Contractors
+    label: Contractors & outsourced work
+    qbo: "Contract Labor"
+    jp: "外注費"
+    legacy: []
+    deductible: likely
+
+  - key: Marketing
+    label: Marketing, advertising, events
+    qbo: "Advertising and Promotion"
+    jp: "広告宣伝費"
+    legacy: [Props]
+    deductible: likely
+
+  - key: Telecom
+    label: Phone, internet, mobile
+    qbo: "Utilities"
+    jp: "通信費"
+    legacy: ["TIP / TEL"]
+    deductible: likely
+
+  - key: Rent
+    label: Rent & facilities
+    qbo: "Rent Expense"
+    jp: "地代家賃"
+    legacy: []
+    deductible: likely
+
+  - key: Taxes
+    label: Taxes, duties, government fees
+    qbo: "Taxes and Licenses"
+    jp: "租税公課"
+    legacy: []
+    deductible: ask-accountant
+
+  - key: BankFees
+    label: Bank, card, and FX fees
+    qbo: "Bank Charges"
+    jp: "支払手数料"
+    legacy: []
+    deductible: likely
+
+  - key: Groceries
+    label: Groceries (personal)
+    qbo: null
+    jp: null
+    legacy: ["Groceries/Supplies"]
+    deductible: unlikely
+    note: Personal-only. If it landed on a business card, flag for reclass.
+
+  - key: Health
+    label: Health & medical
+    qbo: null
+    jp: null
+    legacy: []
+    deductible: ask-accountant
+
+  - key: Personal
+    label: Personal / household / discretionary
+    qbo: null
+    jp: null
+    legacy: [Other, ETC, Miscellaneous]
+    deductible: unlikely
+
+  - key: Transfer
+    label: Transfer between own accounts
+    qbo: null
+    jp: null
+    legacy: []
+    deductible: no
+    note: >
+      NOT SPENDING. Card payments, Zelle to self, Wise JP<->US, brokerage
+      funding. Must be excluded from every spend and burn total.
+
+  - key: Income
+    label: Income / revenue / reimbursement received
+    qbo: "Income"
+    jp: "売上高"
+    legacy: []
+    deductible: no
+
+  - key: Uncategorized
+    label: Uncategorized — needs review
+    qbo: "Ask My Accountant"
+    jp: "仮払金"
+    legacy: []
+    deductible: ask-accountant
+
+# Ambiguity that must never be silently resolved:
+#  - "Groceries/Supplies" in the legacy sheets conflates a personal grocery run
+#    with event supplies bought for a business cohort. Split by context (was there
+#    an associated event/project?), and when context is absent, flag it.
+#  - A meal on a business card during personal travel is not automatically
+#    business. Look for an event/project tag before assuming.

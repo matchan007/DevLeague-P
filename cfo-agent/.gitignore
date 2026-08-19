@@ -1,0 +1,6 @@
+# NEVER commit real financial data. This repo is PUBLIC.
+config/accounts.yml
+config/entities.yml
+private/
+*.local.yml
+snapshots/
