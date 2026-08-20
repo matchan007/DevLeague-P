@@ -1,0 +1,675 @@
+<title>The Ground Lease Split</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+
+<style>
+:root{
+  --paper:#F5F7F6; --panel:#FCFCFB; --panel-2:#EDF1F0;
+  --ink:#101F1E; --ink-2:#3A4B49; --muted:#5C6E6C; --faint:#8A9C99;
+  --rule:#C6D4D2; --rule-strong:#9FB4B1;
+  --accent:#0F5F66; --accent-soft:#E2EFEF;
+  --cat-1:#0091A3; --cat-2:#BE4526;
+  --fill-1:rgba(0,145,163,.13); --fill-2:rgba(190,69,38,.13);
+  --shadow:0 1px 2px rgba(16,31,30,.05), 0 8px 24px -12px rgba(16,31,30,.18);
+  --f-display:'Archivo','Liberation Sans','Helvetica Neue',Arial,sans-serif;
+  --f-body:'Source Serif 4','Bitstream Charter',Charter,Georgia,'Times New Roman',serif;
+  --f-mono:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0E1817; --panel:#16211F; --panel-2:#1E2B29;
+    --ink:#E2EAE7; --ink-2:#BDCBC8; --muted:#93A5A2; --faint:#6E817E;
+    --rule:#2B3A38; --rule-strong:#41544F;
+    --accent:#5FC8D4; --accent-soft:#16302F;
+    --cat-1:#22A6B8; --cat-2:#D96A4E;
+    --fill-1:rgba(34,166,184,.16); --fill-2:rgba(217,106,78,.16);
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0E1817; --panel:#16211F; --panel-2:#1E2B29;
+  --ink:#E2EAE7; --ink-2:#BDCBC8; --muted:#93A5A2; --faint:#6E817E;
+  --rule:#2B3A38; --rule-strong:#41544F;
+  --accent:#5FC8D4; --accent-soft:#16302F;
+  --cat-1:#22A6B8; --cat-2:#D96A4E;
+  --fill-1:rgba(34,166,184,.16); --fill-2:rgba(217,106,78,.16);
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--f-body); font-size:17px; line-height:1.62; -webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px; margin:0 auto; padding:0 28px 96px}
+h1,h2,h3{font-family:var(--f-display); text-wrap:balance; margin:0}
+.eyebrow{font-family:var(--f-mono); font-size:11px; font-weight:500;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--muted)}
+p{margin:0 0 1.05em}
+.measure{max-width:68ch}
+strong{font-weight:600}
+a{color:var(--accent); text-underline-offset:3px}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{
+  outline:2px solid var(--accent); outline-offset:2px; border-radius:2px}
+.num{font-family:var(--f-mono); font-variant-numeric:tabular-nums}
+
+/* title plate */
+.plate{margin-top:34px; border:1px solid var(--rule-strong); background:var(--panel);
+  position:relative; box-shadow:var(--shadow)}
+.plate::before{content:""; position:absolute; inset:5px; border:1px solid var(--rule); pointer-events:none}
+.plate-in{position:relative; padding:38px 34px 34px}
+.plate h1{font-size:clamp(36px,6vw,62px); font-weight:700; line-height:1.03;
+  letter-spacing:-.026em; margin:16px 0 0}
+.plate h1 em{font-style:normal; color:var(--accent)}
+.lede{font-size:19px; color:var(--ink-2); max-width:60ch; margin:20px 0 0}
+
+section{margin-top:70px; scroll-margin-top:20px}
+.sec-head{display:grid; grid-template-columns:64px 1fr; gap:0 20px;
+  border-top:2px solid var(--ink); padding-top:14px; margin-bottom:24px}
+.sec-no{font-family:var(--f-mono); font-size:12px; font-weight:600;
+  letter-spacing:.1em; color:var(--accent); padding-top:6px}
+.sec-head h2{font-size:clamp(25px,3.3vw,33px); font-weight:600; letter-spacing:-.018em; line-height:1.14}
+.sec-head .sub{grid-column:2; color:var(--muted); font-size:15.5px; margin-top:7px; max-width:64ch}
+.body-rail{display:grid; grid-template-columns:64px 1fr; gap:0 20px}
+.body-rail > .rail{border-right:1px solid var(--rule)}
+@media (max-width:760px){
+  .sec-head,.body-rail{grid-template-columns:1fr}
+  .sec-head .sub{grid-column:1}
+  .body-rail > .rail{display:none}
+}
+
+/* figures */
+figure{margin:0 0 26px; border:1px solid var(--rule-strong); background:var(--panel);
+  position:relative; box-shadow:var(--shadow)}
+figure::before{content:""; position:absolute; inset:5px; border:1px solid var(--rule); pointer-events:none}
+.fig-scroll{overflow-x:auto; padding:22px 20px 6px; position:relative}
+figure svg{display:block; width:100%; min-width:640px; height:auto; color:var(--ink)}
+figcaption{position:relative; border-top:1px solid var(--rule); padding:13px 20px;
+  font-size:14px; color:var(--muted); line-height:1.5}
+
+/* notes */
+.note{border-left:3px solid var(--accent); background:var(--panel);
+  padding:17px 20px; margin:0 0 24px; font-size:15.5px; color:var(--ink-2)}
+.note.warn{border-left-color:var(--cat-2)}
+.note .lbl{font-family:var(--f-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--accent); display:block; margin-bottom:7px; font-weight:600}
+.note.warn .lbl{color:var(--cat-2)}
+.note p:last-child{margin-bottom:0}
+
+/* tables */
+.tbl-scroll{overflow-x:auto; border:1px solid var(--rule); background:var(--panel); margin-bottom:22px}
+table{border-collapse:collapse; width:100%; font-size:14.5px; min-width:620px}
+thead th{font-family:var(--f-mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--muted); text-align:left; font-weight:600; padding:12px 14px;
+  border-bottom:1px solid var(--rule-strong); background:var(--panel-2); white-space:nowrap}
+tbody td{padding:13px 14px; border-bottom:1px solid var(--rule); vertical-align:top; line-height:1.5}
+tbody tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right; font-family:var(--f-mono); font-variant-numeric:tabular-nums; white-space:nowrap}
+tbody th{text-align:left; padding:13px 14px; border-bottom:1px solid var(--rule);
+  font-family:var(--f-display); font-weight:600; font-size:15px; vertical-align:top; white-space:nowrap}
+
+/* equation block */
+.eq{border:1px solid var(--rule-strong); background:var(--panel-2); padding:20px 22px;
+  margin:0 0 24px; font-family:var(--f-mono); font-size:15px; line-height:1.9;
+  overflow-x:auto; position:relative}
+.eq b{color:var(--accent); font-weight:600}
+.eq .c2{color:var(--cat-2)}
+.eq .cm{color:var(--muted); font-size:13px}
+
+/* converter */
+.calc{border:1px solid var(--rule-strong); background:var(--panel); box-shadow:var(--shadow); position:relative}
+.calc::before{content:""; position:absolute; inset:5px; border:1px solid var(--rule); pointer-events:none}
+.calc-in{position:relative; display:grid; grid-template-columns:minmax(270px,360px) 1fr}
+@media (max-width:840px){.calc-in{grid-template-columns:1fr}}
+.calc-controls{padding:26px; border-right:1px solid var(--rule)}
+@media (max-width:840px){.calc-controls{border-right:0; border-bottom:1px solid var(--rule)}}
+.field{margin-bottom:19px}
+.field label{font-family:var(--f-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--muted); display:block; margin-bottom:8px; font-weight:600}
+.field select,.field input[type=number]{width:100%; font-family:var(--f-mono); font-size:15px;
+  padding:10px 12px; border:1px solid var(--rule-strong); background:var(--paper); color:var(--ink);
+  border-radius:2px; font-variant-numeric:tabular-nums}
+.field input[type=range]{width:100%; accent-color:var(--accent); margin:4px 0 0}
+.rowline{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px}
+.rowline .val{font-family:var(--f-mono); font-size:14px; font-weight:600; color:var(--accent);
+  font-variant-numeric:tabular-nums}
+.field .hint{font-size:12.5px; color:var(--faint); margin-top:7px; line-height:1.45; font-family:var(--f-body)}
+.calc-out{padding:26px}
+.out-band{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--rule);
+  border:1px solid var(--rule); margin:14px 0 20px}
+.out-cell{background:var(--panel); padding:16px 14px}
+.out-cell.mid{background:var(--accent-soft)}
+.out-cell .k{font-family:var(--f-mono); font-size:10px; letter-spacing:.13em; text-transform:uppercase;
+  color:var(--faint); display:block; margin-bottom:9px}
+.out-cell .v{display:block; font-family:var(--f-display); font-size:clamp(20px,2.9vw,28px); font-weight:700;
+  letter-spacing:-.025em; font-variant-numeric:tabular-nums; line-height:1}
+.out-cell.mid .v{color:var(--accent)}
+.out-cell .r{display:block; font-family:var(--f-mono); font-size:11.5px; color:var(--muted); margin-top:8px}
+.splitbar{display:flex; height:34px; border:1px solid var(--rule-strong); overflow:hidden; margin-bottom:8px}
+.splitbar div{display:flex; align-items:center; justify-content:center; font-family:var(--f-mono);
+  font-size:11px; font-weight:600; white-space:nowrap; overflow:hidden}
+.sb-lf{background:var(--fill-1); color:var(--cat-1); border-right:1px solid var(--rule-strong)}
+.sb-gap{background:var(--fill-2); color:var(--cat-2)}
+.splitbar-cap{display:flex; justify-content:space-between; font-family:var(--f-mono);
+  font-size:10.5px; color:var(--faint); margin-bottom:16px}
+
+ul.plain{padding-left:1.15em; margin:0 0 1.05em}
+ul.plain li{margin-bottom:.5em}
+
+.foot{margin-top:64px; padding-top:22px; border-top:2px solid var(--ink);
+  font-family:var(--f-mono); font-size:11.5px; color:var(--muted); line-height:1.75}
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+
+@media print{
+  :root{--paper:#fff; --panel:#fff; --shadow:none}
+  body{font-size:10.5pt}
+  .wrap{max-width:none; padding:0}
+  figure,.calc,.note,.eq,.tbl-scroll{break-inside:avoid}
+  .fig-scroll,.tbl-scroll{overflow:visible}
+  figure svg{min-width:0}
+  table{min-width:0; font-size:8.5pt}
+  @page{margin:14mm 13mm}
+}
+</style>
+
+<div class="wrap">
+
+<div class="plate">
+  <div class="plate-in">
+    <span class="eyebrow">Companion note to the Waikiki Land Basis Study</span>
+    <h1>The ground lease<br><em>split</em></h1>
+    <p class="lede">Fee simple, leased fee, leasehold. Three words for what happens when one
+    piece of Waikiki dirt gets cut into two separately-owned, separately-priced assets —
+    and how to turn a leased-fee sale price into the fee simple number you actually want.</p>
+  </div>
+</div>
+
+<!-- ============ 01 THE SPLIT ============ -->
+<section id="s1">
+  <div class="sec-head">
+    <span class="sec-no">01</span>
+    <h2>One piece of land, two owners</h2>
+    <p class="sub">A ground lease doesn't transfer land. It splits ownership of it into two
+    halves that are bought and sold independently, often decades apart.</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll">
+      <svg viewBox="0 0 760 430" role="img"
+        aria-label="Diagram: unencumbered fee simple splits under a ground lease into the leased fee, held by the landowner, who receives ground rent and the reversion, and the leasehold, held by the tenant, who occupies the site, owns the building and pays ground rent. The two halves together equal the unencumbered fee.">
+        <defs>
+          <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
+          </marker>
+          <marker id="arA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="#0F5F66"/>
+          </marker>
+        </defs>
+
+        <!-- top: unencumbered fee -->
+        <rect x="230" y="16" width="300" height="62" fill="none" stroke="currentColor" stroke-width="2"/>
+        <text x="380" y="42" text-anchor="middle" font-family="var(--f-display)" font-size="14" font-weight="700" fill="currentColor" letter-spacing="0.04em">UNENCUMBERED FEE SIMPLE</text>
+        <text x="380" y="62" text-anchor="middle" font-family="var(--f-mono)" font-size="11" fill="var(--muted)">the land and every right in it, forever</text>
+
+        <!-- split -->
+        <path d="M380 78 L380 100" stroke="currentColor" stroke-width="1.6" fill="none"/>
+        <path d="M188 100 L573 100" stroke="currentColor" stroke-width="1.6" fill="none"/>
+        <path d="M188 100 L188 138" stroke="currentColor" stroke-width="1.6" fill="none" marker-end="url(#ar)"/>
+        <path d="M573 100 L573 138" stroke="currentColor" stroke-width="1.6" fill="none" marker-end="url(#ar)"/>
+        <text x="392" y="94" font-family="var(--f-mono)" font-size="11" fill="var(--accent)" font-weight="600">a ground lease splits it</text>
+
+        <!-- left: leased fee -->
+        <rect x="30" y="142" width="315" height="176" fill="var(--fill-1)" stroke="var(--cat-1)" stroke-width="2"/>
+        <text x="48" y="169" font-family="var(--f-display)" font-size="14" font-weight="700" fill="var(--cat-1)" letter-spacing="0.04em">LEASED FEE</text>
+        <text x="48" y="188" font-family="var(--f-mono)" font-size="11" fill="var(--muted)">held by the LANDOWNER</text>
+        <line x1="48" y1="200" x2="327" y2="200" stroke="var(--cat-1)" stroke-width="1" opacity=".4"/>
+        <text x="48" y="223" font-family="var(--f-body)" font-size="13" fill="currentColor">Owns the land, but it is tied up by the lease</text>
+        <text x="48" y="252" font-family="var(--f-body)" font-size="13" fill="currentColor">Receives ground rent for the remaining term</text>
+        <text x="48" y="281" font-family="var(--f-body)" font-size="13" fill="currentColor">Gets the land back at the end — the reversion</text>
+        <text x="48" y="305" font-family="var(--f-mono)" font-size="11" fill="var(--muted)">Cannot build, occupy, or sell it vacant</text>
+
+        <!-- right: leasehold -->
+        <rect x="415" y="142" width="315" height="176" fill="var(--fill-2)" stroke="var(--cat-2)" stroke-width="2"/>
+        <text x="433" y="169" font-family="var(--f-display)" font-size="14" font-weight="700" fill="var(--cat-2)" letter-spacing="0.04em">LEASEHOLD</text>
+        <text x="433" y="188" font-family="var(--f-mono)" font-size="11" fill="var(--muted)">held by the TENANT</text>
+        <line x1="433" y1="200" x2="712" y2="200" stroke="var(--cat-2)" stroke-width="1" opacity=".4"/>
+        <text x="433" y="223" font-family="var(--f-body)" font-size="13" fill="currentColor">Right to occupy and build for the term</text>
+        <text x="433" y="252" font-family="var(--f-body)" font-size="13" fill="currentColor">Usually owns the building outright</text>
+        <text x="433" y="281" font-family="var(--f-body)" font-size="13" fill="currentColor">Pays the ground rent</text>
+        <text x="433" y="305" font-family="var(--f-mono)" font-size="11" fill="var(--muted)">Owns nothing once the term runs out</text>
+
+        <!-- flows between -->
+        <path d="M410 232 L350 232" stroke="#0F5F66" stroke-width="1.8" fill="none" marker-end="url(#arA)"/>
+        <text x="380" y="216" text-anchor="middle" font-family="var(--f-mono)" font-size="10.5" fill="var(--accent)" font-weight="600">ground</text>
+        <text x="380" y="228" text-anchor="middle" font-family="var(--f-mono)" font-size="10.5" fill="var(--accent)" font-weight="600">rent</text>
+
+        <!-- reversion arrow -->
+        <path d="M573 330 L573 356 L188 356 L188 332" stroke="var(--cat-1)" stroke-width="1.6" fill="none" stroke-dasharray="6 4" marker-end="url(#ar)" color="var(--cat-1)"/>
+        <text x="380" y="374" text-anchor="middle" font-family="var(--f-mono)" font-size="11" fill="var(--cat-1)" font-weight="600">at term end, the land — and usually the building — revert to the landowner</text>
+
+        <!-- sum -->
+        <line x1="40" y1="398" x2="720" y2="398" stroke="currentColor" stroke-width="1" opacity=".3"/>
+        <text x="380" y="420" text-anchor="middle" font-family="var(--f-display)" font-size="13.5" font-weight="600" fill="currentColor">leased fee &nbsp;+&nbsp; leasehold &nbsp;≈&nbsp; the unencumbered fee simple</text>
+      </svg>
+    </div>
+    <figcaption>The two halves are separate assets with separate buyers. At the ʻAlohilani,
+    Commerz Real bought a majority stake in the <em>leasehold</em> for about $515M around 2017; Safehold bought
+    the <em>leased fee</em> for $195M in 2019. Same resort, two transactions, two years apart.</figcaption>
+  </figure>
+
+  <div class="body-rail"><div class="rail"></div><div>
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>If you buy…</th><th>You get</th><th>You do not get</th><th>Waikiki example</th></tr></thead>
+      <tbody>
+        <tr>
+          <th>Fee simple<br><span style="font-family:var(--f-mono);font-size:11px;font-weight:400;color:var(--muted)">unencumbered</span></th>
+          <td>Everything. Land, forever, free of any lease. Build, hold, or sell as you like.</td>
+          <td>—</td>
+          <td><strong>No verified sale</strong> in the district in the last ten years.</td>
+        </tr>
+        <tr>
+          <th>Leased fee</th>
+          <td>The land, plus a rent cheque and a reversion date. An income asset.</td>
+          <td>Possession. You cannot develop the site until the lease ends.</td>
+          <td>All four primary comps: Royal Hawaiian, ʻAlohilani, Hilton Waikiki Beach, BOH Center.</td>
+        </tr>
+        <tr>
+          <th>Leasehold</th>
+          <td>Use of the site and the building on it, for a finite number of years.</td>
+          <td>The land. And it all ends on a date certain.</td>
+          <td>Hyatt Regency ($756M, 2016), Aston Waikiki Beach ($200M, 2018).</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  </div></div>
+</section>
+
+<!-- ============ 02 THE BRIDGE ============ -->
+<section id="s2">
+  <div class="sec-head">
+    <span class="sec-no">02</span>
+    <h2>The bridge between rent and land value</h2>
+    <p class="sub">Hawaii has an unusually concrete convention here, and it is the hinge of
+    the whole calculation.</p>
+  </div>
+  <div class="body-rail"><div class="rail"></div><div>
+
+  <p class="measure">In Hawaii ground-rent renegotiation arbitrations, appraisers have for more
+  than two decades applied the same annual rate of return to arrive at fair market ground rent:
+  <strong>8% of the land's value</strong>. That convention gives you a two-way bridge.</p>
+
+  <div class="eq">
+    market ground rent &nbsp;=&nbsp; <b>land value</b> &nbsp;×&nbsp; <b>8%</b><br>
+    <b>land value</b> &nbsp;=&nbsp; market ground rent &nbsp;÷&nbsp; <b>8%</b><br>
+    <span class="cm">— the Hawaii arbitration convention; the rate is contested, but it is what practice has used</span>
+  </div>
+
+  <p class="measure">So if you can find out what a Waikiki parcel's ground rent resets to,
+  you can back into what an arbitrator thought the land was worth. And if you know the land
+  value, you know roughly what a market-rate ground rent on it should be. Under HRS §519-1,
+  though, there is a catch worth knowing: when a lease provides for renegotiation at fair
+  market value, that value is calculated on <strong>the use the lease restricts the land to</strong>
+  — not its highest and best use. A lease that limits the site to apartment use caps the rent
+  even where hotel use would be worth far more.</p>
+
+  <div class="note">
+    <span class="lbl">Why resets matter more than anything else</span>
+    <p>Waikiki ground leases typically renegotiate rent every 10 to 15 years. The swings are
+    violent: one Waikiki hotel ground rent went from <span class="num">$187,000</span> a year to
+    over <span class="num">$3.5 million</span> in a single arbitration. Whether — and when — a
+    lease resets to market is the difference between a leased fee that tracks land value and one
+    that is frozen out of it.</p>
+  </div>
+
+  </div></div>
+</section>
+
+<!-- ============ 03 WHY THEY DIVERGE ============ -->
+<section id="s3">
+  <div class="sec-head">
+    <span class="sec-no">03</span>
+    <h2>Why leased fee isn't fee simple</h2>
+    <p class="sub">One reason, and it is measurable: the gap between the rent the lease
+    actually pays and the rent the land could command.</p>
+  </div>
+
+  <figure>
+    <div class="fig-scroll">
+      <svg viewBox="0 0 760 300" role="img"
+        aria-label="Diagram: market ground rent rises steadily over time while contract rent stays flat until the reset date, when it jumps up to meet market. The shaded area between the two lines before the reset is the rent the landowner cannot collect, and its present value is the discount from fee simple to leased fee.">
+        <defs>
+          <marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
+          </marker>
+          <pattern id="hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <line x1="0" y1="0" x2="0" y2="7" stroke="var(--cat-2)" stroke-width="2.2" opacity=".35"/>
+          </pattern>
+        </defs>
+
+        <!-- axes -->
+        <line x1="70" y1="240" x2="716" y2="240" stroke="currentColor" stroke-width="1.4" marker-end="url(#ar2)"/>
+        <line x1="70" y1="240" x2="70" y2="34" stroke="currentColor" stroke-width="1.4" marker-end="url(#ar2)"/>
+        <text x="70" y="266" font-family="var(--f-mono)" font-size="10.5" fill="var(--muted)">today</text>
+        <text x="700" y="266" text-anchor="end" font-family="var(--f-mono)" font-size="10.5" fill="var(--muted)">time →</text>
+        <text x="36" y="56" font-family="var(--f-mono)" font-size="10.5" fill="var(--muted)">rent</text>
+
+        <!-- shortfall region -->
+        <path d="M70 196 L420 118 L420 186 L70 196 Z" fill="url(#hatch)"/>
+
+        <!-- market rent line -->
+        <path d="M70 196 L420 118 L700 56" fill="none" stroke="var(--cat-1)" stroke-width="2.4"/>
+        <text x="704" y="52" text-anchor="end" font-family="var(--f-mono)" font-size="11.5" font-weight="600" fill="var(--cat-1)">market rent — 8% of land value</text>
+
+        <!-- contract rent line: flat, then jumps to market -->
+        <path d="M70 196 L420 186" fill="none" stroke="var(--cat-2)" stroke-width="2.4"/>
+        <path d="M420 186 L420 118" fill="none" stroke="var(--cat-2)" stroke-width="2.4" stroke-dasharray="5 3"/>
+        <path d="M420 118 L700 56" fill="none" stroke="var(--cat-2)" stroke-width="2.4" stroke-dasharray="6 5" opacity=".7"/>
+        <text x="90" y="212" font-family="var(--f-mono)" font-size="11.5" font-weight="600" fill="var(--cat-2)">contract rent — flat until reset</text>
+
+        <!-- reset marker -->
+        <line x1="420" y1="240" x2="420" y2="110" stroke="currentColor" stroke-width="1" stroke-dasharray="4 4" opacity=".5"/>
+        <circle cx="420" cy="118" r="5" fill="var(--cat-2)" stroke="var(--panel)" stroke-width="2"/>
+        <text x="420" y="266" text-anchor="middle" font-family="var(--f-mono)" font-size="10.5" font-weight="600" fill="currentColor">rent reset</text>
+
+        <!-- callout -->
+        <path d="M250 168 L250 140" stroke="currentColor" stroke-width="1" opacity=".5"/>
+        <text x="250" y="132" text-anchor="middle" font-family="var(--f-mono)" font-size="11" font-weight="600" fill="var(--cat-2)">the shortfall</text>
+        <text x="250" y="116" text-anchor="middle" font-family="var(--f-mono)" font-size="10" fill="var(--muted)">rent the landowner can't collect</text>
+      </svg>
+    </div>
+    <figcaption>Everything the landowner loses sits in the hatched wedge — and only until the
+    reset, because after that the contract rent is market rent again. The present value of that
+    wedge <em>is</em> the discount from fee simple to leased fee. A lease resetting in three years
+    barely discounts at all; one fixed for ninety years discounts enormously.</figcaption>
+  </figure>
+
+  <div class="body-rail"><div class="rail"></div><div>
+  <div class="eq">
+    <b>leased fee</b> &nbsp;=&nbsp; <b>fee simple</b> &nbsp;−&nbsp;
+    <span class="c2">PV( market rent − contract rent )</span> over the years until the next reset<br>
+    <span class="cm">— and therefore, running it backwards, which is what you want:</span><br>
+    <b>fee simple</b> &nbsp;=&nbsp; leased-fee price &nbsp;÷&nbsp; ( 1 − discount )
+  </div>
+
+  <p class="measure">Three consequences worth carrying around:</p>
+  <ul class="plain measure">
+    <li><strong>Contract rent at market → leased fee ≈ fee simple.</strong> There is no shortfall,
+    so the two converge. A leased-fee price is then a fair read on land value.</li>
+    <li><strong>Contract rent below market → leased fee is worth less.</strong> How much less
+    depends almost entirely on how long until the reset, not on the size of the gap alone.</li>
+    <li><strong>Short remaining term → leased fee can exceed today's land value.</strong> Because
+    the landowner gets the land back soon, and usually the building with it, for nothing.</li>
+  </ul>
+  </div></div>
+</section>
+
+<!-- ============ 04 CONVERTER ============ -->
+<section id="s4">
+  <div class="sec-head">
+    <span class="sec-no">04</span>
+    <h2>Convert a leased-fee comp to fee simple</h2>
+    <p class="sub">Pick a comp, set what you believe about its lease, and read the fee simple
+    equivalent. The two lease assumptions are the whole calculation — which is exactly why
+    §09 of the main study puts "read the ground lease" third on the list.</p>
+  </div>
+
+  <div class="calc">
+    <div class="calc-in">
+      <div class="calc-controls">
+        <div class="field">
+          <label for="comp">Leased-fee comparable</label>
+          <select id="comp">
+            <option value="0">BOH Waikiki Center · $67.0M</option>
+            <option value="1">ʻAlohilani ground · $195M</option>
+            <option value="2" selected>Hilton Waikiki Beach · $78.0M</option>
+            <option value="3">Royal Hawaiian ground · $510M</option>
+          </select>
+          <span class="hint" id="compHint"></span>
+        </div>
+        <div class="field">
+          <div class="rowline"><label for="below" style="margin:0">Contract rent below market</label>
+            <span class="val" id="belowV">0%</span></div>
+          <input id="below" type="range" min="0" max="70" step="5" value="0">
+          <span class="hint">0% means the lease already pays a market ground rent — the case
+          where leased fee and fee simple are the same thing.</span>
+        </div>
+        <div class="field">
+          <div class="rowline"><label for="yrs" style="margin:0">Years until rent resets</label>
+            <span class="val" id="yrsV">10 yrs</span></div>
+          <input id="yrs" type="range" min="0" max="99" step="1" value="10">
+          <span class="hint">Waikiki leases typically reset every 10–15 years. Drag to 99 for a
+          lease with no market reset at all, like Safehold's capped-CPI form.</span>
+        </div>
+        <div class="field">
+          <div class="rowline"><label for="disc" style="margin:0">Discount rate</label>
+            <span class="val" id="discV">7.0%</span></div>
+          <input id="disc" type="range" min="40" max="120" step="5" value="70">
+          <span class="hint">The rate at which you present-value the missing rent.</span>
+        </div>
+      </div>
+
+      <div class="calc-out">
+        <span class="eyebrow">Implied fee simple land value</span>
+        <div class="out-band">
+          <div class="out-cell"><span class="k">Leased fee paid</span><span class="v" id="oLF">—</span><span class="r" id="oLFr"></span></div>
+          <div class="out-cell mid"><span class="k">Fee simple equivalent</span><span class="v" id="oFS">—</span><span class="r" id="oFSr"></span></div>
+          <div class="out-cell"><span class="k">Uplift</span><span class="v" id="oUp">—</span><span class="r">over the leased-fee price</span></div>
+        </div>
+
+        <div class="splitbar" aria-hidden="true">
+          <div class="sb-lf" id="sbLF">leased fee</div>
+          <div class="sb-gap" id="sbGap">shortfall</div>
+        </div>
+        <div class="splitbar-cap"><span>share of the unencumbered fee</span><span id="sbPct"></span></div>
+
+        <p id="calcNote" style="font-size:14.5px; color:var(--muted); margin:0"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="body-rail" style="margin-top:24px"><div class="rail"></div><div>
+  <div class="note warn">
+    <span class="lbl">Read the default before you trust the output</span>
+    <p>The converter opens at <strong>0% below market</strong>, which returns the leased-fee price
+    unchanged. That is deliberate: it is the honest starting position when you have not read the
+    lease. Every dollar of uplift above that comes from <em>your assumption</em> about the rent
+    gap, not from evidence in the comp set. Move the sliders to test sensitivity — not to
+    manufacture a number.</p>
+  </div>
+  </div></div>
+</section>
+
+<!-- ============ 05 THE FOUR COMPS ============ -->
+<section id="s5">
+  <div class="sec-head">
+    <span class="sec-no">05</span>
+    <h2>Your four comps, re-read</h2>
+    <p class="sub">Which of them is closest to a fee simple signal, and which is furthest.</p>
+  </div>
+  <div class="body-rail"><div class="rail"></div><div>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Comp</th><th class="n">$/sf</th><th>What the lease does to the number</th><th>Closeness to fee simple</th></tr></thead>
+      <tbody>
+        <tr>
+          <th>BOH Waikiki Center<br><span style="font-family:var(--f-mono);font-size:11px;font-weight:400;color:var(--muted)">Mar 2026</span></th>
+          <td class="n">$2,000</td>
+          <td>The <strong>lessee bought its own fee</strong>. When that happens the lease
+          <em>merges</em> and is extinguished — the buyer walks away holding unencumbered fee
+          simple. But a tenant escaping its own rent will pay a premium no third party would.</td>
+          <td><strong>Closest.</strong> Effectively a fee-simple price, inflated by marriage value.
+          Treat as a ceiling.</td>
+        </tr>
+        <tr>
+          <th>Hilton Waikiki Beach<br><span style="font-family:var(--f-mono);font-size:11px;font-weight:400;color:var(--muted)">Aug 2019</span></th>
+          <td class="n">$1,410</td>
+          <td>Straightforward leased-fee sale to a third party. Lease terms not published.</td>
+          <td><strong>Usable</strong> once you read the lease. Adjust up if rent is below market.</td>
+        </tr>
+        <tr>
+          <th>Royal Hawaiian<br><span style="font-family:var(--f-mono);font-size:11px;font-weight:400;color:var(--muted)">Nov 2025</span></th>
+          <td class="n">$1,137</td>
+          <td>Leased fee under Kyo-ya's long-term ground lease. Daisho bought a rent stream on
+          a landmark it can never occupy.</td>
+          <td><strong>Usable</strong>, but the size discount is doing more to this number than
+          the lease is.</td>
+        </tr>
+        <tr>
+          <th>ʻAlohilani<br><span style="font-family:var(--f-mono);font-size:11px;font-weight:400;color:var(--muted)">Sep 2019</span></th>
+          <td class="n">$1,791</td>
+          <td>Safehold bought the ground <em>and immediately replaced the lease</em> with its own
+          99-year form — CPI escalators with caps around 3.0–3.5%, and <strong>no fair-market
+          resets</strong>. Eight to nine CPI lookbacks over the term.</td>
+          <td><strong>Furthest.</strong> This is a bond, priced to a ground-lease REIT's yield
+          target, not a developer's view of Waikiki dirt.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <span class="lbl">The one that matters most for you</span>
+    <p>If you want a fee-simple read, <strong>the Bank of Hawaii transaction is the most
+    informative comp in the entire study</strong> — because the lease died at closing and the
+    buyer ended up with clean, unencumbered fee simple land. At <span class="num">$2,000/sf</span>
+    it is the top of the range, and part of that is a tenant paying to escape its own ground rent.
+    A reasonable fee-simple reading of a small Kalakaua parcel therefore sits somewhere
+    <em>below</em> $2,000/sf but <em>above</em> the third-party leased-fee comps — call it
+    <span class="num">$1,600–1,900/sf</span>, and label it an inference rather than a measurement,
+    because that is what it is.</p>
+  </div>
+
+  </div></div>
+</section>
+
+<!-- ============ 06 SO WHAT ============ -->
+<section id="s6">
+  <div class="sec-head">
+    <span class="sec-no">06</span>
+    <h2>What this means for your project</h2>
+  </div>
+  <div class="body-rail"><div class="rail"></div><div>
+
+  <p class="measure"><strong>"Fee simple only" cannot be a filter here — it has to be a
+  conversion.</strong> Screen the comp set down to unencumbered fee sales and you are left with
+  nothing to work from. The four leased-fee sales are the evidence Waikiki actually produces,
+  and the job is to adjust them, transparently, rather than discard them.</p>
+
+  <p class="measure">Two questions decide everything downstream, and both are answerable from
+  public records:</p>
+
+  <ul class="plain measure">
+    <li><strong>Is your target parcel itself fee simple, or is it encumbered by a ground lease?</strong>
+    If a lease exists, you are not buying land — you are buying either the rent stream or the
+    remaining term, and the price you should pay is a completely different calculation.</li>
+    <li><strong>For each comp, what is the contract rent and when does it reset?</strong> That
+    single pair of facts converts every number in the main study from leased fee to fee simple.
+    Both are in the recorded lease or memorandum of lease at the Bureau of Conveyances.</li>
+  </ul>
+
+  <div class="note">
+    <span class="lbl">If your parcel is fee simple already</span>
+    <p>Then you are in the stronger position of the two, and the leased-fee comps understate what
+    you hold — by the size of whatever rent shortfall encumbers them. Use the converter above with
+    a modest below-market assumption to see the direction and magnitude, then get the leases pulled
+    to replace the assumption with a fact.</p>
+  </div>
+
+  </div></div>
+</section>
+
+<div class="foot">
+  <strong>The Ground Lease Split</strong> &middot; companion note to the Waikiki Land Basis Study
+  &middot; compiled 19 August 2026<br>
+  Explanatory material and a sensitivity tool, not an appraisal and not legal or tax advice. The
+  8% land return is a Hawaii arbitration convention, not a rule of law, and it is contested. Lease
+  terms for the individual comps are not public except where noted &mdash; every conversion above
+  rests on assumptions you supply.
+</div>
+
+</div>
+
+<script>
+const COMPS = [
+  {n:'BOH Waikiki Center', price:67_000_000, sf:33_500,
+   hint:'33,500 sf. The lessee bought its own fee — the lease merged and was extinguished at closing.'},
+  {n:'ʻAlohilani ground', price:195_000_000, sf:108_900,
+   hint:'108,900 sf. Replaced at closing with a Safehold 99-year lease: capped CPI escalators, no market resets.'},
+  {n:'Hilton Waikiki Beach', price:78_000_000, sf:55_321,
+   hint:'55,321 sf. Third-party leased-fee sale by Queen Liliʻuokalani Trust. Lease terms not published.'},
+  {n:'Royal Hawaiian ground', price:510_000_000, sf:448_668,
+   hint:'448,668 sf. Leased fee under Kyo-ya’s long-term ground lease, which continues unchanged.'}
+];
+const CAP = 0.08;                        // Hawaii arbitration land return
+const $ = id => document.getElementById(id);
+const fmtM = n => n >= 1e9 ? '$' + (n/1e9).toFixed(2) + 'B'
+                : n >= 1e6 ? '$' + (n/1e6).toFixed(n/1e6 >= 100 ? 0 : 1) + 'M'
+                : '$' + Math.round(n).toLocaleString('en-US');
+
+function run(){
+  const c = COMPS[+$('comp').value];
+  const d = +$('below').value / 100;          // rent gap as share of market rent
+  const n = +$('yrs').value;                  // years to reset
+  const r = +$('disc').value / 1000;          // discount rate
+
+  // annuity factor for n years at r
+  const a = r === 0 ? n : (1 - Math.pow(1 + r, -n)) / r;
+  // leased fee as a share of unencumbered fee
+  let share = 1 - CAP * d * a;
+  const floored = share < 0.05;
+  share = Math.max(share, 0.05);
+
+  const fs = c.price / share;
+  const lfPsf = c.price / c.sf, fsPsf = fs / c.sf;
+
+  $('compHint').textContent = c.hint;
+  $('belowV').textContent = Math.round(d * 100) + '%';
+  $('yrsV').textContent = n === 0 ? 'resets now' : n + (n === 99 ? '+ yrs' : ' yrs');
+  $('discV').textContent = (r * 100).toFixed(1) + '%';
+
+  $('oLF').textContent = fmtM(c.price);
+  $('oLFr').textContent = '$' + Math.round(lfPsf).toLocaleString('en-US') + '/sf';
+  $('oFS').textContent = fmtM(fs);
+  $('oFSr').textContent = '$' + Math.round(fsPsf).toLocaleString('en-US') + '/sf';
+  $('oUp').textContent = '+' + Math.round((fs / c.price - 1) * 100) + '%';
+
+  const pct = share * 100;
+  $('sbLF').style.width = pct + '%';
+  $('sbGap').style.width = (100 - pct) + '%';
+  $('sbLF').textContent = pct > 22 ? 'leased fee ' + pct.toFixed(0) + '%' : pct.toFixed(0) + '%';
+  $('sbGap').textContent = (100 - pct) > 22 ? 'rent shortfall ' + (100 - pct).toFixed(0) + '%'
+                          : (100 - pct) > 8 ? (100 - pct).toFixed(0) + '%' : '';
+  $('sbPct').textContent = 'leased fee = ' + pct.toFixed(0) + '% of fee simple';
+
+  let note;
+  if (d === 0){
+    note = 'Contract rent is assumed to be at market, so there is no shortfall and the leased-fee '
+         + 'price is already the fee simple value. This is the neutral starting position.';
+  } else if (floored){
+    note = '⚠ These assumptions imply the missing rent is worth more than the land itself — the '
+         + 'result is floored at 5% and should not be used. A gap this large over this many years '
+         + 'is not a realistic lease; check the reset year.';
+  } else if (n <= 5){
+    note = 'With the reset only ' + n + ' year' + (n === 1 ? '' : 's') + ' away, the shortfall barely '
+         + 'discounts the land — the landowner is about to be made whole. Leased fee and fee simple '
+         + 'are nearly the same number here.';
+  } else if (n >= 60){
+    note = 'A lease this long without a market reset is the Safehold case: the landowner is locked '
+         + 'out of land appreciation for generations, so the leased fee trades far below the '
+         + 'unencumbered value of the dirt.';
+  } else {
+    note = 'A ' + Math.round(d * 100) + '% rent gap running ' + n + ' more years puts the leased fee at '
+         + pct.toFixed(0) + '% of unencumbered value — so the comp understates fee simple land by '
+         + Math.round((fs / c.price - 1) * 100) + '%.';
+  }
+  const el = $('calcNote');
+  el.textContent = note;
+  el.style.color = (floored) ? 'var(--cat-2)' : 'var(--muted)';
+  el.style.fontWeight = floored ? '600' : '400';
+}
+['comp','below','yrs','disc'].forEach(id =>
+  $(id).addEventListener('input', run));
+run();
+</script>

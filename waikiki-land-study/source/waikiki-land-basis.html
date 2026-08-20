@@ -1,0 +1,1331 @@
+<title>Waikiki Land Basis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+
+<style>
+/* ============================================================
+   TOKENS — light is the bare :root; dark redefines tokens only.
+   ============================================================ */
+:root{
+  --paper:#F5F7F6;
+  --panel:#FCFCFB;
+  --panel-2:#EDF1F0;
+  --ink:#101F1E;
+  --ink-2:#3A4B49;
+  --muted:#5C6E6C;
+  --faint:#8A9C99;
+  --rule:#C6D4D2;
+  --rule-strong:#9FB4B1;
+  --accent:#0F5F66;
+  --accent-soft:#E2EFEF;
+  --cat-1:#0091A3;
+  --cat-2:#BE4526;
+  --water:#D6E7E8;
+  --water-line:#8FBEC2;
+  --park:#E3EBDC;
+  --park-line:#A9BC98;
+  --sand:#EFE7D8;
+  --sand-line:#CFC1A4;
+  --shadow:0 1px 2px rgba(16,31,30,.05), 0 8px 24px -12px rgba(16,31,30,.18);
+  --f-display:'Archivo','Liberation Sans','Helvetica Neue',Arial,sans-serif;
+  --f-body:'Source Serif 4','Bitstream Charter',Charter,Georgia,'Times New Roman',serif;
+  --f-mono:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0E1817; --panel:#16211F; --panel-2:#1E2B29;
+    --ink:#E2EAE7; --ink-2:#BDCBC8; --muted:#93A5A2; --faint:#6E817E;
+    --rule:#2B3A38; --rule-strong:#41544F;
+    --accent:#5FC8D4; --accent-soft:#16302F;
+    --cat-1:#22A6B8; --cat-2:#D96A4E;
+    --water:#152C30; --water-line:#2F5B60;
+    --park:#1A2620; --park-line:#3A4E3C;
+    --sand:#282318; --sand-line:#4A4231;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0E1817; --panel:#16211F; --panel-2:#1E2B29;
+  --ink:#E2EAE7; --ink-2:#BDCBC8; --muted:#93A5A2; --faint:#6E817E;
+  --rule:#2B3A38; --rule-strong:#41544F;
+  --accent:#5FC8D4; --accent-soft:#16302F;
+  --cat-1:#22A6B8; --cat-2:#D96A4E;
+  --water:#152C30; --water-line:#2F5B60;
+  --park:#1A2620; --park-line:#3A4E3C;
+  --sand:#282318; --sand-line:#4A4231;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--f-body); font-size:17px; line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px; margin:0 auto; padding:0 28px 96px}
+
+/* ---------- type ---------- */
+h1,h2,h3,h4{font-family:var(--f-display); text-wrap:balance; margin:0}
+.eyebrow{
+  font-family:var(--f-mono); font-size:11px; font-weight:500;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--muted);
+}
+p{margin:0 0 1.05em}
+.measure{max-width:68ch}
+strong{font-weight:600}
+a{color:var(--accent); text-underline-offset:3px; text-decoration-thickness:1px}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,
+[tabindex]:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:2px}
+.num{font-family:var(--f-mono); font-variant-numeric:tabular-nums}
+
+/* ============ TITLE BLOCK — surveyor's plat cartouche ============ */
+.plate{
+  margin-top:34px; border:1px solid var(--rule-strong); background:var(--panel);
+  position:relative; box-shadow:var(--shadow);
+}
+.plate::before{
+  content:""; position:absolute; inset:5px; border:1px solid var(--rule);
+  pointer-events:none;
+}
+.plate-in{position:relative; padding:38px 34px 0}
+.plate h1{
+  font-size:clamp(38px,6.4vw,66px); font-weight:700; line-height:1.02;
+  letter-spacing:-.026em; margin:16px 0 0;
+}
+.plate h1 em{font-style:normal; color:var(--accent)}
+.lede{
+  font-size:19px; color:var(--ink-2); max-width:60ch; margin:20px 0 30px;
+}
+.meta-grid{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(158px,1fr));
+  border-top:1px solid var(--rule);
+}
+.meta-cell{padding:15px 18px 17px; border-right:1px solid var(--rule)}
+.meta-cell:last-child{border-right:0}
+.meta-cell .k{
+  font-family:var(--f-mono); font-size:10px; letter-spacing:.15em;
+  text-transform:uppercase; color:var(--faint); display:block; margin-bottom:6px;
+}
+.meta-cell .v{font-family:var(--f-display); font-size:15px; font-weight:600; line-height:1.35}
+
+/* ============ SECTIONS with numbered rail ============ */
+section{margin-top:76px; scroll-margin-top:20px}
+.sec-head{
+  display:grid; grid-template-columns:64px 1fr; gap:0 20px;
+  border-top:2px solid var(--ink); padding-top:14px; margin-bottom:26px;
+}
+.sec-no{
+  font-family:var(--f-mono); font-size:12px; font-weight:600; letter-spacing:.1em;
+  color:var(--accent); padding-top:6px;
+}
+.sec-head h2{
+  font-size:clamp(25px,3.3vw,34px); font-weight:600; letter-spacing:-.018em; line-height:1.14;
+}
+.sec-head .sub{
+  grid-column:2; color:var(--muted); font-size:15.5px; margin-top:7px; max-width:64ch;
+}
+.body-rail{display:grid; grid-template-columns:64px 1fr; gap:0 20px}
+.body-rail > .rail{border-right:1px solid var(--rule)}
+@media (max-width:760px){
+  .sec-head,.body-rail{grid-template-columns:1fr}
+  .sec-head .sub{grid-column:1}
+  .body-rail > .rail{display:none}
+}
+
+/* ============ HEADLINE FIGURES ============ */
+.figs{display:grid; grid-template-columns:repeat(auto-fit,minmax(196px,1fr)); gap:1px;
+  background:var(--rule); border:1px solid var(--rule); margin:6px 0 30px}
+.fig{background:var(--panel); padding:20px 20px 22px}
+.fig .k{font-family:var(--f-mono); font-size:10px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--faint); display:block; margin-bottom:10px}
+.fig .v{display:block; font-family:var(--f-display); font-size:clamp(28px,4vw,40px); font-weight:700;
+  letter-spacing:-.03em; line-height:1; font-variant-numeric:tabular-nums}
+.fig .v .u{font-size:.44em; font-weight:600; color:var(--muted); letter-spacing:0}
+.fig .n{display:block; font-size:13.5px; color:var(--muted); margin-top:9px; line-height:1.45}
+.fig.hero{background:var(--accent-soft)}
+.fig.hero .v{color:var(--accent)}
+
+/* ============ CALLOUTS ============ */
+.note{
+  border-left:3px solid var(--accent); background:var(--panel);
+  padding:17px 20px; margin:0 0 24px; font-size:15.5px; color:var(--ink-2);
+}
+.note.warn{border-left-color:var(--cat-2)}
+.note .lbl{
+  font-family:var(--f-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--accent); display:block; margin-bottom:7px; font-weight:600;
+}
+.note.warn .lbl{color:var(--cat-2)}
+.note p:last-child{margin-bottom:0}
+
+/* ============ TABLES ============ */
+.tbl-scroll{overflow-x:auto; border:1px solid var(--rule); background:var(--panel); margin-bottom:14px}
+table{border-collapse:collapse; width:100%; font-size:14px; min-width:940px}
+thead th{
+  font-family:var(--f-mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--muted); text-align:left; font-weight:600; padding:12px 13px;
+  border-bottom:1px solid var(--rule-strong); background:var(--panel-2);
+  white-space:nowrap; position:sticky; top:0; z-index:2;
+}
+tbody td{padding:12px 13px; border-bottom:1px solid var(--rule); vertical-align:top; line-height:1.45}
+tbody tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right; font-family:var(--f-mono); font-variant-numeric:tabular-nums; white-space:nowrap}
+tbody tr.on{background:var(--accent-soft)}
+.comp-row{cursor:pointer}
+.comp-row:hover{background:var(--panel-2)}
+.pill{
+  display:inline-flex; align-items:center; gap:5px; font-family:var(--f-mono); font-size:10px;
+  letter-spacing:.07em; text-transform:uppercase; font-weight:600;
+  padding:3px 7px; border:1px solid currentColor; border-radius:2px; white-space:nowrap;
+}
+.pill.land{color:var(--cat-1)} .pill.impr{color:var(--cat-2)} .pill.out{color:var(--faint)}
+.key{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:22px; height:22px; font-family:var(--f-mono); font-size:11px; font-weight:600;
+  border:1.5px solid var(--cat-1); color:var(--cat-1); flex:none;
+}
+.key.impr{border-color:var(--cat-2); color:var(--cat-2); border-radius:50%}
+.key.out{border-color:var(--faint); color:var(--faint); border-style:dashed; border-radius:50%}
+.ppsf-lead{font-family:var(--f-mono); font-weight:600; font-size:15px}
+.dash{color:var(--faint)}
+
+/* confidence ticks */
+.conf{display:inline-flex; gap:2px; align-items:center}
+.conf i{width:5px; height:11px; background:var(--rule-strong); display:block}
+.conf i.f{background:var(--accent)}
+
+/* ============ MAP ============ */
+.map-frame{
+  border:1px solid var(--rule-strong); background:var(--panel);
+  position:relative; box-shadow:var(--shadow); margin-bottom:16px;
+}
+.map-frame::before{content:""; position:absolute; inset:5px; border:1px solid var(--rule); pointer-events:none; z-index:1}
+.map-scroll{overflow-x:auto}
+svg.plat{display:block; width:100%; min-width:760px; height:auto}
+.pin{cursor:pointer}
+.pin circle.hit,.pin rect.hit{transition:transform .12s ease}
+.pin:hover .mk,.pin.on .mk{stroke-width:3}
+.pin.on .mk{filter:drop-shadow(0 0 0 var(--accent))}
+.map-legend{
+  display:flex; flex-wrap:wrap; gap:14px 26px; padding:14px 18px;
+  border-top:1px solid var(--rule); font-family:var(--f-mono); font-size:11px;
+  color:var(--muted); position:relative; z-index:2;
+}
+.map-legend span{display:inline-flex; align-items:center; gap:8px}
+.sw{width:13px; height:13px; border:1.5px solid var(--cat-1); flex:none}
+.sw.c{border-radius:50%; border-color:var(--cat-2)}
+.sw.o{border-radius:50%; border-color:var(--faint); border-style:dashed}
+.sw.w{background:var(--water); border-color:var(--water-line)}
+
+/* ============ CHART ============ */
+.chart-frame{border:1px solid var(--rule); background:var(--panel); padding:22px 22px 8px; margin-bottom:14px}
+.chart-head{display:flex; flex-wrap:wrap; gap:10px 22px; align-items:baseline; margin-bottom:6px}
+.chart-head h3{font-size:17px; font-weight:600; letter-spacing:-.01em}
+.legend{display:flex; gap:16px; font-family:var(--f-mono); font-size:11px; color:var(--muted); margin-left:auto}
+.legend span{display:inline-flex; align-items:center; gap:7px}
+.chart-scroll{overflow-x:auto}
+svg.chart{display:block; width:100%; min-width:600px; height:auto; overflow:visible}
+.gridline{stroke:var(--rule); stroke-width:1}
+.axis-lbl{font-family:var(--f-mono); font-size:10.5px; fill:var(--muted)}
+.axis-ttl{font-family:var(--f-mono); font-size:10px; fill:var(--faint); letter-spacing:.12em; text-transform:uppercase}
+.dot-lbl{font-family:var(--f-mono); font-size:11px; fill:var(--ink-2); font-weight:500}
+.trend{stroke:var(--faint); stroke-width:1.5; stroke-dasharray:5 4; fill:none}
+
+/* ============ CALCULATOR ============ */
+.calc{border:1px solid var(--rule-strong); background:var(--panel); box-shadow:var(--shadow); position:relative}
+.calc::before{content:""; position:absolute; inset:5px; border:1px solid var(--rule); pointer-events:none}
+.calc-in{position:relative; display:grid; grid-template-columns:minmax(260px,340px) 1fr; gap:0}
+@media (max-width:820px){.calc-in{grid-template-columns:1fr}}
+.calc-controls{padding:26px 26px 28px; border-right:1px solid var(--rule)}
+@media (max-width:820px){.calc-controls{border-right:0; border-bottom:1px solid var(--rule)}}
+.field{margin-bottom:20px}
+.field label{
+  font-family:var(--f-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--muted); display:block; margin-bottom:8px; font-weight:600;
+}
+.field input,.field select{
+  width:100%; font-family:var(--f-mono); font-size:16px; padding:10px 12px;
+  border:1px solid var(--rule-strong); background:var(--paper); color:var(--ink);
+  border-radius:2px; font-variant-numeric:tabular-nums;
+}
+.field .hint{font-size:12.5px; color:var(--faint); margin-top:7px; line-height:1.4; font-family:var(--f-body)}
+.calc-out{padding:26px}
+.out-band{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--rule); border:1px solid var(--rule); margin-bottom:18px}
+.out-cell{background:var(--panel); padding:16px 14px}
+.out-cell.mid{background:var(--accent-soft)}
+.out-cell .k{font-family:var(--f-mono); font-size:10px; letter-spacing:.13em; text-transform:uppercase; color:var(--faint); display:block; margin-bottom:9px}
+.out-cell .v{display:block; font-family:var(--f-display); font-size:clamp(21px,3vw,29px); font-weight:700; letter-spacing:-.025em; font-variant-numeric:tabular-nums; line-height:1}
+.out-cell.mid .v{color:var(--accent)}
+.out-cell .r{display:block; font-family:var(--f-mono); font-size:11.5px; color:var(--muted); margin-top:8px}
+.bar-track{height:9px; background:var(--panel-2); border:1px solid var(--rule); position:relative; margin:22px 0 8px}
+.bar-fill{position:absolute; top:0; bottom:0; background:var(--cat-1); opacity:.32}
+.bar-mid{position:absolute; top:-4px; bottom:-4px; width:2px; background:var(--accent)}
+.bar-scale{display:flex; justify-content:space-between; font-family:var(--f-mono); font-size:10.5px; color:var(--faint)}
+
+/* ============ CHECKLIST ============ */
+ol.check{list-style:none; counter-reset:c; padding:0; margin:0}
+ol.check li{
+  counter-increment:c; position:relative; padding:0 0 18px 44px; margin-bottom:18px;
+  border-bottom:1px solid var(--rule);
+}
+ol.check li:last-child{border-bottom:0}
+ol.check li::before{
+  content:counter(c,decimal-leading-zero); position:absolute; left:0; top:1px;
+  font-family:var(--f-mono); font-size:11px; font-weight:600; color:var(--accent);
+  border:1px solid var(--rule-strong); width:29px; height:24px;
+  display:flex; align-items:center; justify-content:center;
+}
+ol.check b{font-family:var(--f-display); font-weight:600; font-size:16px; display:block; margin-bottom:4px}
+ol.check .where{font-family:var(--f-mono); font-size:12px; color:var(--muted); display:block; margin-top:6px}
+
+/* ============ SOURCES ============ */
+ul.src{list-style:none; padding:0; margin:0; font-size:14.5px}
+ul.src li{padding:11px 0; border-bottom:1px solid var(--rule); display:grid;
+  grid-template-columns:78px 1fr; gap:14px; align-items:baseline}
+ul.src li:last-child{border-bottom:0}
+ul.src .tag{font-family:var(--f-mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--faint)}
+
+.foot{margin-top:70px; padding-top:22px; border-top:2px solid var(--ink);
+  font-family:var(--f-mono); font-size:11.5px; color:var(--muted); line-height:1.75}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+
+/* ============ PRINT ============ */
+@media print{
+  :root{--paper:#fff; --panel:#fff; --panel-2:#f4f6f5; --shadow:none}
+  body{font-size:10.5pt; background:#fff}
+  .wrap{max-width:none; padding:0}
+  .no-print{display:none!important}
+  section{margin-top:26pt; break-inside:auto}
+  .sec-head{break-after:avoid}
+  .plate{break-inside:avoid}
+  .figs,.map-frame,.chart-frame,.calc,.note{break-inside:avoid}
+  table{min-width:0; font-size:8pt}
+  /* the comps table gained an Interest column; drop the confidence ticks in print
+     so the Note column is not clipped at the page edge */
+  #compTable{table-layout:fixed; width:100%; font-size:7.2pt}
+  #compTable th,#compTable td{white-space:normal!important; word-wrap:break-word; padding:7px 6px}
+  #compTable .ppsf-lead{font-size:7.6pt; white-space:nowrap!important}
+  #compTable .pill{font-size:5.8pt; padding:2px 4px; letter-spacing:.03em}
+  #compTable th:nth-child(11),#compTable td:nth-child(11){display:none}
+  #compTable th:nth-child(1),#compTable td:nth-child(1){width:3.5%}
+  #compTable th:nth-child(2),#compTable td:nth-child(2){width:15%}
+  #compTable th:nth-child(3),#compTable td:nth-child(3){width:8%}
+  #compTable th:nth-child(4),#compTable td:nth-child(4){width:9%}
+  #compTable th:nth-child(5),#compTable td:nth-child(5){width:7.5%}
+  #compTable th:nth-child(6),#compTable td:nth-child(6){width:6.5%}
+  #compTable th:nth-child(7),#compTable td:nth-child(7){width:7%}
+  #compTable th:nth-child(8),#compTable td:nth-child(8){width:8.5%}
+  #compTable th:nth-child(9),#compTable td:nth-child(9){width:14.5%}
+  #compTable th:nth-child(10),#compTable td:nth-child(10){width:20.5%; min-width:0}
+  .print-only{display:block!important}
+  .tbl-scroll,.map-scroll,.chart-scroll{overflow:visible}
+  svg.plat{min-width:0}
+  svg.chart{min-width:0}
+  thead th{position:static}
+  a{color:var(--ink); text-decoration:none}
+  @page{margin:14mm 13mm}
+}
+</style>
+
+<div class="wrap">
+
+<!-- ================= TITLE PLATE ================= -->
+<div class="plate">
+  <div class="plate-in">
+    <span class="eyebrow">Land Basis Study &middot; Waikiki Special District &middot; 2016&ndash;2026</span>
+    <h1>What Waikiki dirt<br>actually <em>trades for</em></h1>
+    <p class="lede">Ten years of land and land-heavy transactions inside the Waikiki
+    Special District, reduced to one number you can underwrite against:
+    <strong>dollars per square foot of land</strong>. Every figure is sourced, and
+    every figure is marked with how much weight it can carry.</p>
+  </div>
+  <div class="meta-grid">
+    <div class="meta-cell"><span class="k">Boundary</span><span class="v">Waikiki Special District</span></div>
+    <div class="meta-cell"><span class="k">Window</span><span class="v">Aug 2016 &ndash; Aug 2026</span></div>
+    <div class="meta-cell"><span class="k">Basis</span><span class="v">Land value extracted</span></div>
+    <div class="meta-cell"><span class="k">Primary comps</span><span class="v">4 fee / leased&nbsp;fee</span></div>
+    <div class="meta-cell"><span class="k">Compiled</span><span class="v">19 Aug 2026</span></div>
+  </div>
+</div>
+
+<!-- ================= 01 BOTTOM LINE ================= -->
+<section id="s1">
+  <div class="sec-head">
+    <span class="sec-no">01</span>
+    <h2>The bottom line</h2>
+    <p class="sub">Four arm's-length land sales inside the district carry this study.
+    Together they moved 646,389 square feet of Waikiki land for $850 million.</p>
+  </div>
+  <div class="body-rail"><div class="rail"></div><div>
+
+  <div class="figs">
+    <div class="fig hero">
+      <span class="k">Area-weighted land value</span>
+      <span class="v">$1,315<span class="u">/sf</span></span>
+      <span class="n">Total dollars &divide; total land area across the four primary comps. The single most defensible number here.</span>
+    </div>
+    <div class="fig">
+      <span class="k">Median comp</span>
+      <span class="v">$1,600<span class="u">/sf</span></span>
+      <span class="n">Midpoint of the four. Runs high because two of the four are small parcels.</span>
+    </div>
+    <div class="fig">
+      <span class="k">Observed range</span>
+      <span class="v">$1,137<span class="u">&ndash;2,000</span></span>
+      <span class="n">Low: the 10.3-acre Royal Hawaiian block. High: a 33,500 sf corner on Kalakaua.</span>
+    </div>
+    <div class="fig">
+      <span class="k">Land appreciation</span>
+      <span class="v">9.5<span class="u">%/yr</span></span>
+      <span class="n">Bank of Hawaii Waikiki Center ground: $119/sf in 1995 &rarr; $2,000/sf in 2026. Same dirt, 31 years.</span>
+    </div>
+  </div>
+
+  <p class="measure">Three findings matter more than the headline average, and they should
+  shape how you use this study.</p>
+
+  <div class="note">
+    <span class="lbl">Finding 01 &mdash; Parcel size drives price more than date does</span>
+    <p>Across the four primary comps there is no usable time trend. A 2019 sale
+    ($1,791/sf) sits above a 2025 sale ($1,137/sf). What separates them is size and
+    frontage, not the calendar. Small parcels on Kalakaua clear near $2,000/sf; ten-acre
+    blocks clear near $1,150/sf. <strong>If your parcel is under ~35,000 sf, the small-lot
+    comps govern &mdash; not the headline average.</strong></p>
+  </div>
+
+  <div class="note">
+    <span class="lbl">Finding 02 &mdash; The Hawaiian trusts are the sellers</span>
+    <p>Kamehameha Schools and Queen Liliʻuokalani Trust are on the sell side of three of the
+    four primary comps ($783M of the $850M). Buyers are overwhelmingly Japanese and Korean
+    institutional capital plus U.S. ground-lease REITs. This is a structural rotation of
+    Waikiki's fee ownership, not a series of one-off trades &mdash; which means more
+    leased-fee product is likely to come to market.</p>
+  </div>
+
+  <div class="note warn">
+    <span class="lbl">Finding 03 &mdash; Nearly every comp is a leased-fee sale</span>
+    <p>All four primary comps conveyed land <em>already encumbered by a long-term ground
+    lease</em>. That is not the same asset as a clean, deliverable, developable site.
+    A leased-fee buyer purchases an income stream and a reversion; a developer buys the right
+    to build now. Depending on the lease's rent and remaining term, unencumbered fee land can
+    be worth meaningfully <em>more</em> than these figures, and a below-market ground lease
+    makes it worth <em>less</em>. <strong>There is no verified vacant, unencumbered,
+    ready-to-develop land sale in the district in the ten-year window.</strong></p>
+  </div>
+
+  </div></div>
+</section>
+
+<!-- ================= 02 METHOD ================= -->
+<section id="s2">
+  <div class="sec-head">
+    <span class="sec-no">02</span>
+    <h2>What this is, and what it isn't</h2>
+    <p class="sub">Read this before you put any of these numbers in front of a lender or a partner.</p>
+  </div>
+  <div class="body-rail"><div class="rail"></div><div>
+
+  <div class="note warn">
+    <span class="lbl">Data provenance &mdash; read this</span>
+    <p>This study was compiled from <strong>published transaction reporting</strong>:
+    trade press, seller press releases, SEC filings, and news coverage of recorded deeds.
+    It was <strong>not</strong> compiled from primary records. Direct access to the City &amp;
+    County Real Property Assessment Division, the Hawaii Bureau of Conveyances, and the HoLIS
+    parcel/zoning GIS layers was blocked by network policy in the environment this was built in.</p>
+    <p>Consequence: <strong>land areas, TMKs, and closing dates carry the confidence of a news
+    report, not a title search.</strong> Section 09 lists exactly what to pull to convert this
+    from a well-sourced desktop study into something an appraiser or a lender will underwrite.
+    No figure below is invented &mdash; but several are single-sourced, and they are marked.</p>
+  </div>
+
+  <p class="measure"><strong>Boundary.</strong> The Waikiki Special District as adopted in the
+  Land Use Ordinance: the Ala Wai Canal on the mauka and Ewa sides, Kapahulu Avenue on the
+  Diamond Head side, and the ocean makai. One transaction in the table (the Gold Coast
+  boutique hotel at 2885 Kalakaua) sits <em>outside</em> that line and is flagged and excluded
+  from every conclusion.</p>
+
+  <p class="measure"><strong>What counts as a comp.</strong> You asked for land value extracted
+  from all sales including improved property, which is correct for this market &mdash; Waikiki
+  has effectively no vacant land. The comps are graded into three classes:</p>
+
+  <div class="tbl-scroll">
+  <table>
+    <thead><tr><th>Class</th><th>What it is</th><th>How it's used</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="pill land">Land</span></td>
+        <td>Fee or leased-fee interest in the land itself conveyed separately from the building.</td>
+        <td><strong>Primary.</strong> These four drive every conclusion. $/sf is a true land rate.</td>
+      </tr>
+      <tr>
+        <td><span class="pill impr">Improved</span></td>
+        <td>Land and buildings conveyed together in one price.</td>
+        <td><strong>Ceiling test.</strong> $/sf of land includes the building, so it sets an
+        upper bound on land, never a land rate.</td>
+      </tr>
+      <tr>
+        <td><span class="pill out">Leasehold</span></td>
+        <td>Only the tenant's interest under a ground lease conveyed. No land changes hands.</td>
+        <td><strong>Excluded from valuation.</strong> Shown for market context and ownership
+        history only. Dividing these prices by land area produces a meaningless number.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note">
+    <span class="lbl">Fee simple vs leased fee &mdash; companion note</span>
+    <p>Every primary comp below conveyed a <strong>leased fee</strong>: the landowner&rsquo;s half of a
+    ground lease, not clean unencumbered land. A separate note explains the difference, shows the
+    Hawaii convention linking ground rent to land value, and provides a converter that turns any
+    leased-fee price here into its fee simple equivalent &mdash;
+    <a href="https://claude.ai/code/artifact/ca54d790-68c1-481a-9232-2e6e1030c7fc" target="_blank" rel="noopener">The Ground Lease Split</a>.
+    The <strong>Interest</strong> column in the table records what changed hands in each row.</p>
+  </div>
+
+  <p class="measure"><strong>Extraction.</strong> Where a sale is improved, no depreciated-cost
+  allocation has been run &mdash; that requires building cost and condition data not available
+  here. The improved figures are therefore presented as gross $/sf of land <em>with the building
+  included</em>, which is why they read <em>lower</em> than the pure-land comps rather than higher:
+  the improved assets in this sample are older, functionally dated buildings on interior blocks.</p>
+
+  </div></div>
+</section>
+
+<!-- ================= 03 THE MAP ================= -->
+<section id="s3">
+  <div class="sec-head">
+    <span class="sec-no">03</span>
+    <h2>Where they are</h2>
+    <p class="sub">Every transaction, keyed by number to the table below. Click any marker to
+    jump to its row; hover a row to find it on the map.</p>
+  </div>
+
+  <div class="map-frame">
+    <div class="map-scroll">
+      <svg class="plat" viewBox="0 0 1000 470" role="img"
+           aria-label="Schematic map of the Waikiki Special District showing the Ala Wai Canal, Ala Wai Boulevard, Kuhio Avenue, Kalakaua Avenue, the shoreline, Fort DeRussy, Kapiolani Park and Diamond Head, with numbered markers for each transaction.">
+        <defs>
+          <pattern id="wv" width="18" height="10" patternUnits="userSpaceOnUse">
+            <path d="M0 6 Q4.5 1 9 6 T18 6" fill="none" stroke="var(--water-line)" stroke-width="1" opacity=".55"/>
+          </pattern>
+          <pattern id="pk" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <line x1="0" y1="0" x2="0" y2="9" stroke="var(--park-line)" stroke-width="1" opacity=".5"/>
+          </pattern>
+        </defs>
+
+        <!-- ocean -->
+        <path d="M0 470 L0 352 Q210 336 430 342 T760 352 Q880 360 1000 384 L1000 470 Z"
+              fill="var(--water)"/>
+        <path d="M0 470 L0 352 Q210 336 430 342 T760 352 Q880 360 1000 384 L1000 470 Z"
+              fill="url(#wv)"/>
+        <!-- beach -->
+        <path d="M0 352 Q210 336 430 342 T760 352 Q880 360 1000 384 L1000 366 Q880 342 760 334
+                 Q600 324 430 324 Q210 318 0 334 Z" fill="var(--sand)" stroke="var(--sand-line)" stroke-width="1"/>
+
+        <!-- Ala Wai Canal -->
+        <path d="M0 52 Q240 62 520 84 Q660 96 726 150 Q772 190 786 262"
+              fill="none" stroke="var(--water)" stroke-width="20" stroke-linecap="round"/>
+        <path d="M0 52 Q240 62 520 84 Q660 96 726 150 Q772 190 786 262"
+              fill="none" stroke="var(--water-line)" stroke-width="20" stroke-linecap="round" opacity=".28"/>
+        <text class="axis-lbl" x="150" y="46" style="font-size:11px; letter-spacing:.1em">ALA WAI CANAL</text>
+
+        <!-- Kapiolani Park -->
+        <path d="M800 258 Q900 250 1000 258 L1000 372 Q900 352 806 336 Z"
+              fill="var(--park)" stroke="var(--park-line)" stroke-width="1"/>
+        <path d="M800 258 Q900 250 1000 258 L1000 372 Q900 352 806 336 Z" fill="url(#pk)"/>
+        <text class="axis-lbl" x="838" y="300" style="font-size:10px">KAPIOLANI</text>
+        <text class="axis-lbl" x="838" y="313" style="font-size:10px">PARK</text>
+
+        <!-- Fort DeRussy -->
+        <path d="M182 288 L302 292 L298 340 L178 334 Z" fill="var(--park)" stroke="var(--park-line)" stroke-width="1"/>
+        <path d="M182 288 L302 292 L298 340 L178 334 Z" fill="url(#pk)"/>
+        <text class="axis-lbl" x="192" y="318" style="font-size:10px">FORT DeRUSSY</text>
+
+        <!-- streets -->
+        <path id="stAlaWai" d="M6 84 Q250 96 512 118 Q650 130 714 178" fill="none" stroke="var(--rule-strong)" stroke-width="2.5"/>
+        <path id="stKuhio"  d="M84 190 Q300 200 520 214 Q640 222 706 250" fill="none" stroke="var(--rule-strong)" stroke-width="2.5"/>
+        <path id="stKal"    d="M28 268 Q240 276 470 282 Q640 288 748 300 Q812 308 858 342" fill="none" stroke="var(--ink)" stroke-width="3"/>
+        <!-- Kapahulu Ave (district boundary, Diamond Head side) -->
+        <path d="M772 236 Q784 286 800 336" fill="none" stroke="var(--cat-2)" stroke-width="2" stroke-dasharray="7 5" opacity=".75"/>
+        <text class="axis-lbl" x="806" y="222" style="font-size:10px; fill:var(--cat-2)">KAPAHULU AVE</text>
+        <text class="axis-lbl" x="806" y="234" style="font-size:9px; fill:var(--cat-2)">district boundary</text>
+        <!-- Ala Moana Blvd (Ewa boundary) -->
+        <path d="M40 120 Q46 190 40 262" fill="none" stroke="var(--cat-2)" stroke-width="2" stroke-dasharray="7 5" opacity=".6"/>
+
+        <!-- street labels -->
+        <text class="axis-lbl" style="font-size:10.5px; letter-spacing:.09em"><textPath href="#stAlaWai" startOffset="30%" dy="-6">ALA WAI BLVD</textPath></text>
+        <text class="axis-lbl" style="font-size:10.5px; letter-spacing:.09em"><textPath href="#stKuhio" startOffset="7%" dy="-6">KUHIO AVE</textPath></text>
+        <text class="axis-lbl" style="font-size:11px; letter-spacing:.09em; fill:var(--ink-2); font-weight:600"><textPath href="#stKal" startOffset="29%" dy="-7">KALAKAUA AVE</textPath></text>
+        <text class="axis-lbl" x="330" y="404" style="font-size:12px; letter-spacing:.22em; fill:var(--water-line)">PACIFIC OCEAN</text>
+        <text class="axis-lbl" x="20" y="196" style="font-size:9px; fill:var(--cat-2)">ALA MOANA BLVD</text>
+
+        <!-- Diamond Head -->
+        <path d="M912 404 L958 366 L1000 398 L1000 440 L906 440 Z" fill="var(--park)" stroke="var(--park-line)" stroke-width="1"/>
+        <text class="axis-lbl" x="898" y="456" style="font-size:9.5px">DIAMOND HEAD</text>
+
+        <!-- compass -->
+        <g transform="translate(58,420)">
+          <line x1="0" y1="16" x2="0" y2="-12" stroke="var(--ink-2)" stroke-width="1.4"/>
+          <path d="M0 -18 L4.5 -8 L0 -11 L-4.5 -8 Z" fill="var(--ink-2)"/>
+          <text class="axis-lbl" x="0" y="30" text-anchor="middle" style="font-size:10px; fill:var(--ink-2)">N</text>
+        </g>
+        <text class="axis-lbl" x="600" y="440" style="font-size:9px">SCHEMATIC &mdash; NOT TO SCALE, NOT A SURVEY</text>
+
+        <g id="pins"></g>
+      </svg>
+    </div>
+    <div class="map-legend">
+      <span><i class="sw"></i> Land / leased-fee sale &mdash; primary comp</span>
+      <span><i class="sw c"></i> Improved or leasehold sale &mdash; context</span>
+      <span><i class="sw o"></i> Outside the Special District &mdash; excluded</span>
+      <span><i class="sw w"></i> Water</span>
+    </div>
+  </div>
+  <p class="measure" style="font-size:14px; color:var(--muted)">
+  Positions are plotted from street address along the Kalakaua / Kuhio address grid and are
+  approximate. This is an orientation diagram, not a survey plat &mdash; do not scale
+  distances or infer parcel boundaries from it.</p>
+</section>
+
+<!-- ================= 04 THE COMPS ================= -->
+<section id="s4">
+  <div class="sec-head">
+    <span class="sec-no">04</span>
+    <h2>The transactions</h2>
+    <p class="sub">Sorted by dollars per square foot of land, descending. Confidence ticks
+    reflect how well-sourced each row's land area and price are.</p>
+  </div>
+  <div class="tbl-scroll">
+    <table id="compTable">
+      <thead>
+        <tr>
+          <th style="width:38px">#</th>
+          <th>Property &amp; address</th>
+          <th>Class</th>
+          <th>Interest</th>
+          <th class="n">Closed</th>
+          <th class="n">Price</th>
+          <th class="n">Land sf</th>
+          <th class="n">$ / sf land</th>
+          <th>Seller &rarr; Buyer</th>
+          <th style="min-width:200px">Note</th>
+          <th>Conf.</th>
+        </tr>
+      </thead>
+      <tbody id="compBody"></tbody>
+    </table>
+  </div>
+  <p class="measure" style="font-size:14px; color:var(--muted)">
+    <span class="print-only" style="display:none">Source-confidence ratings for each row are shown
+    in the interactive version of this report.<br></span>    <span class="num">&mdash;</span> in the $/sf column means land area was not disclosed in any
+    source found, so no rate can be computed. Leasehold rows deliberately show no $/sf: dividing
+    a leasehold price by land area is not a land value.</p>
+</section>
+
+<!-- ================= 05 WHAT DRIVES PRICE ================= -->
+<section id="s5">
+  <div class="sec-head">
+    <span class="sec-no">05</span>
+    <h2>What actually moves the number</h2>
+    <p class="sub">Size and frontage, in that order. Not the year.</p>
+  </div>
+
+  <div class="chart-frame">
+    <div class="chart-head">
+      <h3>Land rate falls as parcel size rises</h3>
+      <div class="legend">
+        <span><i class="sw" style="border-color:var(--cat-1); background:var(--cat-1); opacity:.85"></i> Land / leased-fee</span>
+        <span><i class="sw c" style="border-color:var(--cat-2); background:var(--cat-2); opacity:.85"></i> Improved (ceiling)</span>
+      </div>
+    </div>
+    <div class="chart-scroll">
+      <svg class="chart" id="scatter" viewBox="0 0 780 380" role="img"
+        aria-label="Scatter plot of dollars per square foot of land against parcel size on a logarithmic scale. Land rate falls as parcel size rises, from about 2,000 dollars per square foot at 33,500 square feet down to about 1,137 dollars per square foot at 448,668 square feet."></svg>
+    </div>
+    <p style="font-size:13px; color:var(--muted); padding:4px 0 14px; margin:0">
+      Parcel size on a log scale. The dashed line is the fitted size&ndash;price relationship
+      across the four land comps; with n=4 it is an <em>indication of direction</em>, not a
+      regression you should underwrite to.</p>
+  </div>
+
+  <div class="body-rail"><div class="rail"></div><div>
+  <p class="measure"><strong>The size effect.</strong> Big Waikiki blocks sell at a discount per
+  foot because the pool of buyers who can write a $500 million check is tiny, and because a
+  ten-acre assemblage already has its highest and best use built on it. Small corner parcels sell
+  at a premium because they are scarce, because they complete assemblages, and because a
+  neighbouring owner will pay more than the open market to control the lot next door.</p>
+
+  <p class="measure"><strong>The frontage effect.</strong> Holding size roughly constant, Kalakaua
+  Avenue frontage and beach proximity carry the premium. The clearest read in the data:
+  ʻAlohilani's oceanfront 2.5 acres at 2490 Kalakaua cleared <span class="num">$1,791/sf</span>,
+  while Hilton Waikiki Beach's 1.27 acres two blocks mauka at 2500 Kuhio &mdash; a
+  <em>smaller</em> parcel, sold in the same year, by the same seller &mdash; cleared
+  <span class="num">$1,410/sf</span>. That roughly <span class="num">27%</span> gap is
+  location, isolated about as cleanly as this market ever offers.</p>
+
+  <div class="note warn">
+    <span class="lbl">The gap in the evidence</span>
+    <p>Every primary comp sits on Kalakaua or Kuhio. <strong>There is no verified land comp in
+    the interior Apartment Precinct</strong> &mdash; the Ala Wai side, the residential blocks
+    off Ena Road and Olohana Street. If your parcel is in there, this study does not price it,
+    and anyone extrapolating the $1,315/sf figure onto an Ala Wai lot is guessing. Interior
+    apartment-zoned land in Waikiki should be expected to trade well below the resort corridor,
+    but the discount is not measured here. Section 09 tells you how to close that gap.</p>
+  </div>
+  </div></div>
+</section>
+
+<!-- ================= 06 ZONING ================= -->
+<section id="s6">
+  <div class="sec-head">
+    <span class="sec-no">06</span>
+    <h2>Zoning</h2>
+    <p class="sub">In Waikiki the precinct governs what you can build, and what you can build
+    governs what the land is worth. Two parcels of identical size across the street from each
+    other are not the same asset.</p>
+  </div>
+  <div class="body-rail"><div class="rail"></div><div>
+
+  <p class="measure">Every parcel in the district carries <em>two</em> layers: an underlying
+  Land Use Ordinance zoning district, and a Waikiki Special District precinct laid over it.
+  The precinct is usually the binding constraint, and it is the one that decides whether
+  transient vacation units &mdash; hotel use, the highest-value use in Waikiki &mdash; are
+  permitted as of right.</p>
+
+  <div class="tbl-scroll">
+  <table>
+    <thead><tr><th>Precinct</th><th>Hotel / transient use</th><th>What it means for land value</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Resort Mixed Use</strong></td>
+        <td><strong>Permitted as of right.</strong> TVUs and B&amp;Bs both allowed.</td>
+        <td>The premium precinct. All four primary comps sit in the resort corridor. Access to
+        the PD-R (Planned Development &ndash; Resort) permit path, which is where the density
+        upside lives.</td>
+      </tr>
+      <tr>
+        <td><strong>Resort</strong></td>
+        <td><strong>Permitted as of right.</strong></td>
+        <td>Full hotel entitlement. Values track the Resort Mixed Use precinct.</td>
+      </tr>
+      <tr>
+        <td><strong>Apartment</strong></td>
+        <td><strong>Not as of right.</strong> Residential use; PD-A permit path only.</td>
+        <td>Materially lower land value. No hotel income to capitalise. This is the precinct with
+        no comps in this study &mdash; treat any number applied here as unsupported.</td>
+      </tr>
+      <tr>
+        <td><strong>Apartment Mixed Use</strong></td>
+        <td><strong>Not as of right.</strong></td>
+        <td>Residential with limited commercial. Between Apartment and Resort in value; still
+        unmeasured in this dataset.</td>
+      </tr>
+      <tr>
+        <td><strong>Public</strong></td>
+        <td>n/a</td>
+        <td>Parks, rights-of-way, civic. Not a market category.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="figs" style="margin-top:26px">
+    <div class="fig">
+      <span class="k">Height limit &mdash; Diamond Head end</span>
+      <span class="v">220<span class="u">ft</span></span>
+      <span class="n">Waikiki runs a graduated height ceiling that steps down toward Diamond Head.</span>
+    </div>
+    <div class="fig">
+      <span class="k">Height limit &mdash; Ala Moana end</span>
+      <span class="v">350<span class="u">ft</span></span>
+      <span class="n">The Ewa end carries the tallest envelope in the district.</span>
+    </div>
+    <div class="fig">
+      <span class="k">PD-R base density</span>
+      <span class="v">4.0<span class="u">FAR</span></span>
+      <span class="n">Maximum project floor area ratio under the Planned Development &ndash; Resort path.</span>
+    </div>
+    <div class="fig">
+      <span class="k">PD-R ceiling</span>
+      <span class="v">5.0<span class="u">FAR</span></span>
+      <span class="n">Where existing FAR already exceeds 3.33, density may rise up to 20%, capped at 5.0. Above 5.0, existing FAR is the cap.</span>
+    </div>
+  </div>
+
+  <div class="note">
+    <span class="lbl">Why this matters to your pricing</span>
+    <p>A land rate is really a price for buildable floor area. At 4.0 FAR, land at $1,315/sf is
+    <span class="num">$329</span> per buildable square foot; at 5.0 FAR the same land is
+    <span class="num">$263</span>. <strong>If your parcel already carries an FAR above 5.0, that
+    grandfathered density is the single most valuable thing about it</strong> &mdash; existing
+    FAR becomes your cap, and it cannot be recreated. Confirm the existing FAR before you
+    price the land.</p>
+  </div>
+
+  </div></div>
+</section>
+
+<!-- ================= 07 WHO'S TRADING ================= -->
+<section id="s7">
+  <div class="sec-head">
+    <span class="sec-no">07</span>
+    <h2>Who is selling, who is buying</h2>
+    <p class="sub">And what each of these parties traded before &mdash; the five-year history
+    behind the counterparties you'd be negotiating against.</p>
+  </div>
+  <div class="body-rail"><div class="rail"></div><div>
+
+  <p class="measure"><strong>The sell side is a small, identifiable group of Hawaiian trusts
+  monetising legacy ground positions.</strong> Kamehameha Schools closed the $510M Royal
+  Hawaiian ground in November 2025, six weeks after selling roughly 500 acres under the Four
+  Seasons Hualālai on Hawaiʻi Island for about $400M. Queen Liliʻuokalani Trust sold two
+  Waikiki grounds in 2019 alone &mdash; ʻAlohilani at $195M in September and Hilton Waikiki
+  Beach at $78M in August &mdash; under a repositioning strategy its trustees set in 2015.
+  It has publicly stated that its remaining Waikiki position, more than four acres under the
+  Waikiki Beach Marriott, is not for sale.</p>
+
+  <p class="measure"><strong>The buy side is cross-Pacific institutional capital and
+  ground-lease specialists.</strong> Daisho (Tokyo) took the Royal Hawaiian ground. Shoei
+  (Japan) bought the ground under its own building at the Bank of Hawaii Waikiki Center.
+  Safehold, the ground-lease REIT founded and managed by iStar, took ʻAlohilani. On the
+  leasehold side the pattern repeats: Mirae Asset (Seoul) bought the Hyatt Regency leasehold
+  from Blackstone for $755.6M in 2016; Commerz Real (Germany) took the majority of the
+  Pacific Beach leasehold around 2017; Financial Products Group (Japan) bought the Queen
+  Kapiolani in December 2022.</p>
+
+  <div class="note">
+    <span class="lbl">The negotiating read</span>
+    <p>If you are acquiring, you are most likely buying from either <strong>a trust with a
+    fiduciary mandate and no time pressure</strong>, or <strong>a family partnership holding
+    a legacy ground position</strong>. Neither is a distressed seller. The Bank of Hawaii
+    ground is the instructive case: Kapuahelani LP held that dirt from 1995 to 2026 and sold
+    it to its own lessee &mdash; the party with the most to gain from controlling it and the
+    least ability to walk away. That is how the $2,000/sf top of the range got set, and it is
+    why that comp should be treated as an <em>upper</em> bound rather than a market midpoint.</p>
+  </div>
+
+  <h3 style="font-size:19px; font-weight:600; margin:34px 0 14px">Prior transaction history</h3>
+  <div class="tbl-scroll">
+  <table>
+    <thead><tr><th>Asset</th><th class="n">Earlier trade</th><th class="n">Then</th><th class="n">Later trade</th><th class="n">Now</th><th>Read</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>BOH Waikiki Center ground</strong><br><span class="dash">2155 Kalakaua Ave</span></td>
+        <td class="n">1995</td><td class="n">~$4.0M<br><span class="dash">~$119/sf</span></td>
+        <td class="n">Mar 2026</td><td class="n">$67.0M<br><span class="dash">$2,000/sf</span></td>
+        <td>16.8&times; over 31 years &mdash; a 9.5% compound annual rate on raw Waikiki land.</td>
+      </tr>
+      <tr>
+        <td><strong>Hyatt Regency Waikiki</strong> (leasehold)<br><span class="dash">2424 Kalakaua Ave</span></td>
+        <td class="n">2013</td><td class="n">$445M<br><span class="dash">Blackstone buys</span></td>
+        <td class="n">Jun 2016</td><td class="n">$755.6M<br><span class="dash">Mirae buys</span></td>
+        <td>70% gain in three years. Transferred again Sept 2025 in an undisclosed nine-figure
+        deal; 2026 reporting put talks near $650&ndash;680M &mdash; a real markdown from 2016.</td>
+      </tr>
+      <tr>
+        <td><strong>ʻAlohilani Resort</strong><br><span class="dash">2490 Kalakaua Ave</span></td>
+        <td class="n">~2017</td><td class="n">~$515M<br><span class="dash">leasehold, Commerz Real</span></td>
+        <td class="n">Sep 2019</td><td class="n">$195M<br><span class="dash">ground, Safehold</span></td>
+        <td>The cleanest split in the dataset: leasehold and fee sold separately within two
+        years. Land was ~27% of the combined capital stack.</td>
+      </tr>
+      <tr>
+        <td><strong>Queen Kapiolani Hotel</strong><br><span class="dash">150 Kapahulu Ave</span></td>
+        <td class="n">2015</td><td class="n">$51.3M<br><span class="dash">ProspectHill</span></td>
+        <td class="n">Dec 2022</td><td class="n">Undisclosed<br><span class="dash">FPG (Japan)</span></td>
+        <td>Price not released. Pull the deed for the conveyance tax stamp to infer it.</td>
+      </tr>
+      <tr>
+        <td><strong>Hilton Hawaiian Village fringe</strong><br><span class="dash">Kalia Rd vicinity</span></td>
+        <td class="n">2014</td><td class="n">~$37M<br><span class="dash">land + easements to Blackstone affil.</span></td>
+        <td class="n">Mar 2023</td><td class="n">~$18M<br><span class="dash">2 parcels to Park Hotels</span></td>
+        <td>Park has been assembling at the Ewa end for an additional tower. Areas undisclosed
+        in both trades &mdash; no rate derivable.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  </div></div>
+</section>
+
+<!-- ================= 08 CALCULATOR ================= -->
+<section id="s8">
+  <div class="sec-head">
+    <span class="sec-no">08</span>
+    <h2>Apply it to your parcel</h2>
+    <p class="sub">You haven't named the site, so this puts the comp set in your hands. Enter
+    the land area and pick the position that matches; the range comes straight from the
+    transactions above.</p>
+  </div>
+
+  <div class="calc">
+    <div class="calc-in">
+      <div class="calc-controls">
+        <div class="field">
+          <label for="sf">Land area &mdash; square feet</label>
+          <input id="sf" type="number" value="20000" min="500" max="600000" step="500"
+                 inputmode="numeric" aria-describedby="sfhint">
+          <span class="hint" id="sfhint">Land area, not building area. One acre = 43,560 sf.</span>
+        </div>
+        <div class="field">
+          <label for="tier">Position in the district</label>
+          <select id="tier">
+            <option value="kal_small">Kalakaua Ave &mdash; small parcel (under ~40,000 sf)</option>
+            <option value="kal_ocean">Kalakaua Ave &mdash; oceanfront / beach frontage</option>
+            <option value="kuhio" selected>Kuhio Ave corridor</option>
+            <option value="kal_large">Kalakaua Ave &mdash; large block (over ~200,000 sf)</option>
+            <option value="interior">Interior / Ala Wai &mdash; Apartment Precinct</option>
+          </select>
+          <span class="hint" id="tierhint"></span>
+        </div>
+      </div>
+      <div class="calc-out">
+        <span class="eyebrow">Indicated land value</span>
+        <div class="out-band" style="margin-top:14px">
+          <div class="out-cell"><span class="k">Low</span><span class="v" id="vLo">&mdash;</span><span class="r" id="rLo"></span></div>
+          <div class="out-cell mid"><span class="k">Indicated</span><span class="v" id="vMid">&mdash;</span><span class="r" id="rMid"></span></div>
+          <div class="out-cell"><span class="k">High</span><span class="v" id="vHi">&mdash;</span><span class="r" id="rHi"></span></div>
+        </div>
+        <div class="bar-track"><div class="bar-fill" id="barFill"></div><div class="bar-mid" id="barMid"></div></div>
+        <div class="bar-scale"><span>$0</span><span>$2,200/sf</span></div>
+        <p id="calcNote" style="font-size:14px; color:var(--muted); margin:16px 0 0"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="body-rail" style="margin-top:24px"><div class="rail"></div><div>
+  <div class="note warn">
+    <span class="lbl">What this number does not include</span>
+    <p>This is <strong>land value only</strong>. An acquisition cost is not the same thing.
+    Not included: any building on the site; transaction costs (title, escrow, Hawaii conveyance
+    tax, brokerage, legal); entitlement and permitting cost and the carry to get through it;
+    demolition and site work; tenant buyouts or relocation; and &mdash; if the site is
+    encumbered by a ground lease &mdash; the cost of the leasehold interest, which as the
+    ʻAlohilani history above shows can exceed the land itself by two to three times.</p>
+  </div>
+  </div></div>
+</section>
+
+<!-- ================= 09 VERIFY ================= -->
+<section id="s9">
+  <div class="sec-head">
+    <span class="sec-no">09</span>
+    <h2>Verify before you rely on this</h2>
+    <p class="sub">Nine lookups convert this desktop study into something an appraiser, a lender,
+    or a partner will accept. All are public records; none cost more than a fee and an afternoon.</p>
+  </div>
+  <div class="body-rail"><div class="rail"></div><div>
+
+  <ol class="check">
+    <li><b>Pull the TMK and land area for every comp above.</b>
+      Confirm each parcel's actual square footage rather than the acreage a reporter rounded.
+      This alone can move a $/sf figure by 10&ndash;15%.
+      <span class="where">City &amp; County of Honolulu, Real Property Assessment Division &mdash; parcel search by address or TMK</span></li>
+    <li><b>Pull the recorded deed for each comp and read the conveyance tax stamp.</b>
+      Hawaii's conveyance tax is computed on actual consideration, so the stamp confirms price
+      &mdash; including for the Queen Kapiolani sale, where the price was never released.
+      <span class="where">State of Hawaii Bureau of Conveyances / Land Court &mdash; document search by grantor, grantee, or TMK</span></li>
+    <li><b>Read the ground lease on every leased-fee comp.</b>
+      Rent, remaining term, reset dates, and reversion terms determine what the buyer actually
+      paid for. Without these, the four primary comps are not strictly comparable to each other.
+      <span class="where">Recorded lease or memorandum of lease, Bureau of Conveyances</span></li>
+    <li><b>Confirm your own parcel's precinct and underlying zoning.</b>
+      Resort Mixed Use versus Apartment is the largest single value fork in this study.
+      <span class="where">Honolulu DPP zoning map / HoLIS parcel viewer; LUO Ch. 21-9, Waikiki Special District</span></li>
+    <li><b>Confirm your parcel's existing FAR and height envelope.</b>
+      Grandfathered density above 5.0 FAR cannot be recreated and is worth pricing separately.
+      <span class="where">Honolulu DPP; Waikiki Special District Design Guidelines</span></li>
+    <li><b>Close the Apartment Precinct evidence gap.</b>
+      Ask a Honolulu commercial brokerage to run interior Waikiki land and apartment-building
+      sales from the MLS and CoStar. That data is licensed and was not available for this study.
+      <span class="where">A local CRE brokerage with CoStar and Honolulu Board of Realtors access</span></li>
+    <li><b>Verify the two flagged rows.</b>
+      The Waikiki Trade Center price and date, and the Kuhio Avenue studio-apartment assemblage
+      sale, are each single-sourced with no confirmed land area.
+      <span class="where">RPAD parcel record plus recorded deed</span></li>
+    <li><b>Check for encumbrances on your target.</b>
+      Easements, shoreline setback, the Waikiki Special District design review, historic
+      designation, and any existing tenancies all reduce what you can deliver.
+      <span class="where">Preliminary title report; DPP records</span></li>
+    <li><b>Commission a state-certified appraisal before you commit capital.</b>
+      This study is research, not an appraisal, and it is not a substitute for one.
+      <span class="where">Hawaii state-certified general appraiser with Waikiki hospitality experience</span></li>
+  </ol>
+
+  </div></div>
+</section>
+
+<!-- ================= 10 SOURCES ================= -->
+<section id="s10">
+  <div class="sec-head">
+    <span class="sec-no">10</span>
+    <h2>Sources</h2>
+    <p class="sub">Every figure above traces to one of these. Where a fact rests on a single
+    source, the comp table's confidence column says so.</p>
+  </div>
+  <div class="body-rail"><div class="rail"></div><div>
+  <ul class="src" id="srcList"></ul>
+  </div></div>
+</section>
+
+<div class="foot">
+  <strong>Waikiki Land Basis Study</strong> &middot; compiled 19 August 2026 &middot;
+  Waikiki Special District, Honolulu, Hawaii<br>
+  Prepared as market research from published sources. <strong>This is not an appraisal</strong>
+  and is not a substitute for one. It does not constitute investment, legal, or tax advice.
+  Land areas, prices, and dates are as reported by the cited sources and have not been verified
+  against primary land records &mdash; see Section 09.
+</div>
+
+</div>
+
+<script>
+/* =========================================================================
+   ONE DATA SOURCE — map pins, comp table and scatter all read from this.
+   x / y are schematic map coordinates in the SVG's 1000×470 viewBox,
+   positioned off the Kalakaua / Kuhio street-address grid.
+   ========================================================================= */
+const SF_AC = 43560;
+const COMPS = [
+  { id:1, cls:'land', name:'Bank of Hawaii Waikiki Center — ground',
+    addr:'2155 Kalakaua Ave at Beach Walk', date:'27 Mar 2026', dateSort:2026.24,
+    price:67_000_000, sf:33_500, x:384, y:248,
+    seller:'Kapuahelani LP', buyer:'Shoei Global (Shoei USA affil., Japan)',
+    note:'Leased fee under ~83% of the building, bought by the building’s own owner. Two adjacent parcels. Seller acquired the ground in 1995 for ~$4M. Treat as an upper bound — a lessee buying its own fee pays marriage value.',
+    conf:3 },
+  { id:2, cls:'land', name:'ʻAlohilani Resort — ground',
+    addr:'2490 Kalakaua Ave', date:'25 Sep 2019', dateSort:2019.73,
+    price:195_000_000, sf:2.5*SF_AC, x:616, y:312,
+    seller:'Queen Liliʻuokalani Trust', buyer:'Safehold Inc. (iStar-managed ground-lease REIT)',
+    note:'Leased fee under the 839-room ʻAlohilani. Oceanfront Kalakaua frontage — the strongest location in the primary set.',
+    conf:3 },
+  { id:3, cls:'land', name:'Hilton Waikiki Beach — ground',
+    addr:'2500 Kuhio Ave', date:'27 Aug 2019', dateSort:2019.65,
+    price:78_000_000, sf:1.27*SF_AC, x:636, y:200,
+    seller:'Queen Liliʻuokalani Trust', buyer:'HWB Hawaii LLC',
+    note:'Leased fee. Same seller and same year as ʻAlohilani but two blocks mauka with no beach frontage — the cleanest location comparison available.',
+    conf:3 },
+  { id:4, cls:'land', name:'The Royal Hawaiian — ground',
+    addr:'2255 Kalakaua Ave', date:'6 Nov 2025', dateSort:2025.85,
+    price:510_000_000, sf:10.3*SF_AC, x:448, y:308,
+    seller:'Kamehameha Schools', buyer:'Daisho Co. Ltd (Tokyo)',
+    note:'Leased fee under the hotel, which Kyo-ya continues to own on a long-term ground lease. Largest parcel in the set and the lowest rate — the size discount in its clearest form. One source reports 10.0 acres, which would lift the rate to $1,171/sf.',
+    conf:3 },
+  { id:5, cls:'land', name:'Hilton Hawaiian Village — 2 adjacent parcels',
+    addr:'Kalia Rd vicinity', date:'Mar 2023', dateSort:2023.2,
+    price:18_000_000, sf:null, x:124, y:300,
+    seller:'Undisclosed', buyer:'Park Hotels & Resorts',
+    note:'Land and improvements assembled for a planned additional tower. Land area not disclosed in any source found, so no rate can be derived.',
+    conf:2 },
+
+  { id:6, cls:'impr', name:'Waikiki Trade Center',
+    addr:'2255 Kuhio Ave at Seaside Ave', date:'Date to verify', dateSort:null,
+    price:8_200_000, sf:null, x:452, y:186,
+    seller:'Undisclosed', buyer:'Seaside Equity LLC (Delaware)',
+    note:'Office and retail tower. Buyer planned mechanical and finish upgrades. Neither closing date nor land area confirmed — flagged for verification.',
+    conf:1 },
+  { id:7, cls:'impr', name:'Studio apartment building (3-storey, 69 yrs)',
+    addr:'Kuhio Ave', date:'Mar 2026', dateSort:2026.23,
+    price:4_200_000, sf:null, x:530, y:192,
+    seller:'Undisclosed', buyer:'Owner of the adjoining property',
+    note:'Assemblage purchase by a neighbour, raising the prospect of redevelopment. Land area not reported — worth pulling, as a small interior parcel would be the closest thing in this study to an Apartment Precinct comp.',
+    conf:1 },
+  { id:8, cls:'impr', name:'Polynesian Plaza (leasehold)',
+    addr:'2131 Kalakaua Ave', date:'Oct 2016', dateSort:2016.79,
+    price:10_600_000, sf:14_058, x:330, y:306, noRate:true,
+    seller:'Sandpiper Acquisition LLC', buyer:'L.A. Koreana Inc. (Koreana Hotels & Resorts, Seoul)',
+    note:'Leasehold interest only in a 56-unit boutique hotel with ~7,500 sf of ground-floor retail. The 14,058 sf is the leasehold land beneath it — no land was conveyed, so no $/sf is shown.',
+    conf:2 },
+  { id:9, cls:'impr', name:'Aston Waikiki Beach Hotel (leasehold)',
+    addr:'2570 Kalakaua Ave', date:'Mar 2018', dateSort:2018.2,
+    price:200_000_000, sf:null, x:682, y:316, noRate:true,
+    seller:'Xenia Hotels & Resorts', buyer:'Undisclosed',
+    note:'Leasehold interest in a 693-room hotel. Context for the resort market; no land conveyed.',
+    conf:2 },
+  { id:10, cls:'impr', name:'Hyatt Regency Waikiki (leasehold)',
+    addr:'2424 Kalakaua Ave', date:'Jun 2016', dateSort:2016.45,
+    price:755_600_000, sf:null, x:574, y:256, noRate:true,
+    seller:'Blackstone Group', buyer:'Mirae Asset Global Investments (Seoul)',
+    note:'Leasehold only. Blackstone had paid $445M in 2013. Transferred again in Sept 2025 for an undisclosed nine-figure sum; 2026 reporting put negotiations near $650–680M.',
+    conf:3 },
+  { id:11, cls:'impr', name:'Queen Kapiolani Hotel (leasehold)',
+    addr:'150 Kapahulu Ave', date:'Dec 2022', dateSort:2022.95,
+    price:null, sf:null, x:756, y:248, noRate:true,
+    seller:'ProspectHill Group', buyer:'Financial Products Group Co. Ltd (Japan)',
+    note:'Price never disclosed. ProspectHill had acquired the leasehold for $51.3M in 2015. The conveyance tax stamp on the recorded deed would reveal the price.',
+    conf:2 },
+  { id:12, cls:'out', name:'Gold Coast boutique hotel (51 rooms)',
+    addr:'2885 Kalakaua Ave — outside the district', date:'late 2019', dateSort:2019.95,
+    price:30_000_000, sf:null, x:862, y:366, noRate:true,
+    seller:'Undisclosed', buyer:'The MacNaughton Group',
+    note:'Formerly Aqua Lotus, and the W Honolulu before that. Sits on the Gold Coast past Kapahulu Ave — outside the Waikiki Special District, so excluded from all conclusions. Shown for orientation only.',
+    conf:2 },
+  { id:13, cls:'out', name:'Ambassador Hotel Waikiki (6 parcels)',
+    addr:'2040 Kuhio Ave — pre-dates the window', date:'2014', dateSort:2014,
+    price:71_500_000, sf:67_229, x:268, y:176,
+    seller:'Ambassador Hotel Inc.', buyer:'Walton Street Capital (Chicago)',
+    note:'Six parcels totalling 67,229 sf including a 26,470 sf hotel. Closed in 2014, before the ten-year window, so excluded from conclusions — but the best available read on a Kuhio Ave assemblage rate, land and buildings together.',
+    conf:2 }
+];
+
+const SOURCES = [
+  ['Land sale','Hawaiʻi Public Radio — “Kamehameha Schools sells Waikīkī land under the Royal Hawaiian for $510M” (14 Nov 2025)','https://www.hawaiipublicradio.org/local-news/2025-11-14/kamehameha-schools-sells-waikiki-land-under-the-royal-hawaiian-for-510m'],
+  ['Land sale','Kamehameha Schools — “Kamehameha Schools sells its remaining interest in the Royal Hawaiian Hotel”','https://www.ksbe.edu/article/kamehameha-schools-sells-its-remaining-interest-in-the-royal-hawaiian-hotel'],
+  ['Land sale','CoStar — “Big deal for land under Waikiki hotel keeps historical landmark intact”','https://www.costar.com/article/720718292/big-deal-for-land-under-waikiki-hotel-keeps-historical-landmark-intact'],
+  ['Land sale','SFGate — “Hawaiian trust sells land under famed Waikiki hotel for $510 million”','https://www.sfgate.com/hawaii/article/kamehameha-royal-hawaiian-land-sale-21176497.php'],
+  ['Land sale','Safehold Inc. — “Safehold Closes $195 Million Waikiki Ground Lease” (25 Sep 2019)','https://www.safeholdinc.com/press-releases/safehold-signs-agreement-for-195-million-ground-lease/'],
+  ['Land sale','Business Wire — “Safehold Closes $195 Million Waikiki Ground Lease and Launches SAFE x SWAP Program”','https://www.businesswire.com/news/home/20190925005232/en/Safehold-Closes-195-Million-Waikiki-Ground-Lease-and-Launches-SAFE-x-SWAP-Program'],
+  ['Land sale','Commercial Real Estate Direct — “Safehold to Pay $195Mln for Ground Lease at Hawaiian Resort”','https://crenews.com/2019/09/10/safehold-to-pay-195mln-for-ground-lease-at-hawaiian-resort/'],
+  ['Land sale','ʻOnipaʻa / Liliʻuokalani Trust — “Liliuokalani Trust Sells Second Waikiki Hotel Property” (Hilton Waikiki Beach, $78M)','https://onipaa.org/news/liliuokalani-trust-sells-second-waikiki-hotel-property'],
+  ['Land sale','ʻOnipaʻa / Liliʻuokalani Trust — “Hawaii trust sells land beneath Waikiki resort to iStar”','https://onipaa.org/news/hawaii-trust-sells-land-beneath-waikiki-resort-to-istar'],
+  ['Land sale','Honolulu Star-Advertiser — “Land under BOH Waikiki Center sold for $67M” (1 Apr 2026)','https://www.staradvertiser.com/2026/04/01/breaking-news/land-under-boh-waikiki-center-sold-for-67m/'],
+  ['Land sale','Hoodline — “Japanese Investor Shells Out $67 Million For Waikiki Bank Center Dirt”','https://hoodline.com/2026/03/japanese-investor-shells-out-67-million-for-waikiki-bank-center-dirt/'],
+  ['Ownership','Hawaiʻi Public Radio — “Who owns the land under Waikīkī hotels?” (12 Sep 2025)','https://www.hawaiipublicradio.org/local-news/2025-09-12/who-owns-the-land-under-waikiki-hotels'],
+  ['Improved','Park Hotels & Resorts — Form 8-K, FY2023 (parcels adjacent to Hilton Hawaiian Village, ~$18M)','https://www.sec.gov/Archives/edgar/data/1617406/000095017023016008/pk-ex99_1.htm'],
+  ['Improved','Park Hotels & Resorts — Form 8-K, FY2017 (HHV land and easement rights, ~$37M)','https://www.sec.gov/Archives/edgar/data/0001617406/000156459017009123/pk-ex992_7.htm'],
+  ['Improved','Hotel Management — “Polynesian Plaza hotel in Waikiki purchased for $10.6 million”','https://www.hotelmanagement.net/own/polynesian-plaza-hotel-waikiki-purchased-for-10-6-million'],
+  ['Improved','Hotel News Resource — “Aston Waikiki Beach Hotel Sold For $200 Million”','https://www.hotelnewsresource.com/article98907.html'],
+  ['Improved','Mingtiandi — “Korea’s Mirae Splashes Out $756M to Buy Waikiki Resort From Blackstone”','https://www.mingtiandi.com/real-estate/outbound-investment/koreas-mirae-splashes-out-756m-to-buy-waikiki-resort-from-blackstone/'],
+  ['Improved','Honolulu Star-Advertiser — “Hyatt Regency to be sold for $800M” (7 Jun 2016)','https://www.staradvertiser.com/2016/06/07/business/hyatt-regency-to-be-sold-for-800m/'],
+  ['Improved','Bloomberg — “Waikiki’s Hyatt Regency Said to Be Offered for Sale by Mirae” (3 Feb 2025)','https://www.bloomberg.com/news/articles/2025-02-03/waikiki-s-hyatt-regency-said-to-be-offered-for-sale-by-mirae'],
+  ['Improved','Hawaiʻi Public Radio — “Japanese investors buy Waikīkī’s Queen Kapiolani Hotel” (16 Dec 2022)','https://www.hawaiipublicradio.org/local-news/2022-12-16/japanese-investors-buy-waikikis-queen-kapiolani-hotel'],
+  ['Improved','Hawaii Americana Realty — “Waikiki Trade Center sold for $8.2M”','https://shopoahuproperties.com/waikiki-trade-center-sold-for-8-2m/'],
+  ['Improved','CoStar — “In Honolulu, keeping a deal in the neighborhood” (Kuhio Ave assemblage, 25 Mar 2026)','https://www.costar.com/article/113421453/in-honolulu-keeping-a-deal-in-the-neighborhood'],
+  ['Improved','Commercial Property Executive — “Walton Street Capital Acquires Honolulu’s Ambassador Hotel Waikiki for $71.5M”','https://www.commercialsearch.com/news/walton-street-capital-honolulus-ambassador-hotel-waikiki-for-71-5m/'],
+  ['Improved','MacNaughton — “MacNaughton Group Buys Waikiki Hotel for $30M”','https://www.macnaughton.com/news/gm8r5aba7lj8ly8whbs6hg7h8fn58r'],
+  ['Zoning','City &amp; County of Honolulu DPP — Waikiki Special District Design Guidelines','https://www.honolulu.gov/dpp/wp-content/uploads/sites/56/2024/07/WaikikiSD.pdf'],
+  ['Zoning','American Legal Publishing — Honolulu LUO § 21-9.80-4, general requirements and design controls','https://codelibrary.amlegal.com/codes/honolulu/latest/honolulu/0-0-0-21960'],
+  ['Zoning','Honolulu Magazine — “How Tall Can a Honolulu Building Be? It Depends…” (graduated Waikiki height limits)','https://www.honolulumagazine.com/how-tall-can-a-honolulu-building-be-it-depends/'],
+  ['Verify','City &amp; County of Honolulu — Real Property Assessment Division (parcel / TMK search)','https://www.realpropertyhonolulu.com/'],
+  ['Verify','Honolulu Land Information System (HoLIS) — open geospatial data, parcel and zoning layers','https://honolulu-cchnl.opendata.arcgis.com/']
+];
+
+/* ---------- helpers ---------- */
+const fmtUSD = n => '$' + n.toLocaleString('en-US');
+const fmtM = n => n >= 1e9 ? '$' + (n/1e9).toFixed(2) + 'B'
+               : n >= 1e6 ? '$' + (n/1e6).toFixed(n/1e6 >= 100 ? 0 : 1) + 'M'
+               : fmtUSD(n);
+const rate = c => (c.noRate || !c.price || !c.sf) ? null : c.price / c.sf;
+
+/* ---------- comp table ---------- */
+const tbody = document.getElementById('compBody');
+const rows = [...COMPS].sort((a,b) => {
+  const ra = rate(a), rb = rate(b);
+  if (ra !== null && rb !== null) return rb - ra;
+  if (ra !== null) return -1;
+  if (rb !== null) return 1;
+  return a.id - b.id;
+});
+const clsLabel = {land:'Land', impr:'Improved', out:'Excluded'};
+// What legal interest actually changed hands. Fee simple is the unencumbered land;
+// leased fee is the landowner's half of a ground lease; leasehold is the tenant's half.
+const INTEREST = {
+  1:'Leased fee \u2192 merged', 2:'Leased fee', 3:'Leased fee', 4:'Leased fee',
+  5:'Fee (improved)', 6:'To verify', 7:'Fee (improved)', 8:'Leasehold',
+  9:'Leasehold', 10:'Leasehold', 11:'Leasehold', 12:'To verify', 13:'Fee (improved)'
+};
+rows.forEach(c => {
+  const r = rate(c);
+  const tr = document.createElement('tr');
+  tr.className = 'comp-row';
+  tr.id = 'row-' + c.id;
+  tr.tabIndex = 0;
+  tr.innerHTML =
+    `<td><span class="key ${c.cls==='land'?'':c.cls}">${c.id}</span></td>` +
+    `<td><strong>${c.name}</strong><br><span class="dash">${c.addr}</span></td>` +
+    `<td><span class="pill ${c.cls==='land'?'land':c.cls==='impr'?'impr':'out'}">${clsLabel[c.cls]}</span></td>` +
+    `<td style="font-size:12.5px; color:var(--muted); white-space:nowrap">${INTEREST[c.id]}</td>` +
+    `<td class="n">${c.date}</td>` +
+    `<td class="n">${c.price ? fmtM(c.price) : '<span class="dash">n/d</span>'}</td>` +
+    `<td class="n">${c.sf ? Math.round(c.sf).toLocaleString('en-US') : '<span class="dash">—</span>'}</td>` +
+    `<td class="n"><span class="ppsf-lead">${r ? '$' + Math.round(r).toLocaleString('en-US') : '<span class="dash">—</span>'}</span></td>` +
+    `<td>${c.seller}<br><span class="dash">&rarr;</span> ${c.buyer}</td>` +
+    `<td style="font-size:13px; color:var(--muted)">${c.note}</td>` +
+    `<td><span class="conf" title="${c.conf} of 3 — sourcing strength">` +
+      [1,2,3].map(i => `<i class="${i<=c.conf?'f':''}"></i>`).join('') + `</span></td>`;
+  tr.addEventListener('mouseenter', () => focusComp(c.id, false));
+  tr.addEventListener('mouseleave', () => clearFocus());
+  tr.addEventListener('focus', () => focusComp(c.id, false));
+  tbody.appendChild(tr);
+});
+
+/* ---------- map pins ---------- */
+const pinG = document.getElementById('pins');
+const SVGNS = 'http://www.w3.org/2000/svg';
+COMPS.forEach(c => {
+  const g = document.createElementNS(SVGNS,'g');
+  g.setAttribute('class','pin');
+  g.setAttribute('id','pin-' + c.id);
+  g.setAttribute('tabindex','0');
+  g.setAttribute('role','button');
+  const r = rate(c);
+  g.setAttribute('aria-label',
+    `${c.id}. ${c.name}, ${c.addr}. ${c.price ? fmtM(c.price) : 'price not disclosed'}${r ? ', ' + fmtUSD(Math.round(r)) + ' per square foot of land' : ''}.`);
+
+  const stroke = c.cls === 'land' ? 'var(--cat-1)' : c.cls === 'impr' ? 'var(--cat-2)' : 'var(--faint)';
+  let mk;
+  if (c.cls === 'land') {
+    mk = document.createElementNS(SVGNS,'rect');
+    mk.setAttribute('x', c.x-11); mk.setAttribute('y', c.y-11);
+    mk.setAttribute('width',22); mk.setAttribute('height',22);
+  } else {
+    mk = document.createElementNS(SVGNS,'circle');
+    mk.setAttribute('cx', c.x); mk.setAttribute('cy', c.y); mk.setAttribute('r',11.5);
+  }
+  mk.setAttribute('class','mk');
+  mk.setAttribute('fill','var(--panel)');
+  mk.setAttribute('stroke', stroke);
+  mk.setAttribute('stroke-width', 2);
+  if (c.cls === 'out') mk.setAttribute('stroke-dasharray','4 3');
+
+  const t = document.createElementNS(SVGNS,'text');
+  t.setAttribute('x', c.x); t.setAttribute('y', c.y + 4);
+  t.setAttribute('text-anchor','middle');
+  t.setAttribute('style','font-family:var(--f-mono); font-size:11px; font-weight:600; fill:' + stroke);
+  t.textContent = c.id;
+
+  const hit = document.createElementNS(SVGNS,'circle');
+  hit.setAttribute('cx', c.x); hit.setAttribute('cy', c.y); hit.setAttribute('r', 19);
+  hit.setAttribute('fill','transparent'); hit.setAttribute('class','hit');
+
+  g.append(mk, t, hit);
+  const jump = () => {
+    const row = document.getElementById('row-' + c.id);
+    row.scrollIntoView({behavior:'smooth', block:'center'});
+    focusComp(c.id, true);
+  };
+  g.addEventListener('click', jump);
+  g.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); jump(); } });
+  g.addEventListener('mouseenter', () => focusComp(c.id, false));
+  g.addEventListener('mouseleave', () => clearFocus());
+  pinG.appendChild(g);
+});
+
+let stuck = null;
+function focusComp(id, sticky){
+  if (sticky) stuck = id;
+  document.querySelectorAll('.pin').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('#compBody tr').forEach(r => r.classList.remove('on'));
+  document.getElementById('pin-' + id)?.classList.add('on');
+  document.getElementById('row-' + id)?.classList.add('on');
+}
+function clearFocus(){
+  if (stuck !== null) { focusComp(stuck, false); return; }
+  document.querySelectorAll('.pin').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('#compBody tr').forEach(r => r.classList.remove('on'));
+}
+
+/* ---------- scatter: size vs rate ---------- */
+(function scatter(){
+  const svg = document.getElementById('scatter');
+  const W = 780, H = 380, ML = 90, MR = 108, MT = 22, MB = 56;
+  const pw = W - ML - MR, ph = H - MT - MB;
+  const pts = COMPS.filter(c => rate(c) !== null && c.sf);
+  const xMin = Math.log10(20000), xMax = Math.log10(600000);
+  const yMin = 900, yMax = 2150;
+  const X = sf => ML + (Math.log10(sf) - xMin) / (xMax - xMin) * pw;
+  const Y = v  => MT + (1 - (v - yMin) / (yMax - yMin)) * ph;
+  const el = (n,a) => { const e = document.createElementNS(SVGNS,n);
+    for (const k in a) e.setAttribute(k, a[k]); return e; };
+
+  // y gridlines + labels
+  for (let v = 1000; v <= 2000; v += 250){
+    svg.appendChild(el('line',{x1:ML, x2:ML+pw, y1:Y(v), y2:Y(v), class:'gridline'}));
+    const tx = el('text',{x:ML-13, y:Y(v)+4, 'text-anchor':'end', class:'axis-lbl'});
+    tx.textContent = '$' + v.toLocaleString('en-US'); svg.appendChild(tx);
+  }
+  // x ticks
+  [25000, 50000, 100000, 200000, 400000].forEach(sf => {
+    svg.appendChild(el('line',{x1:X(sf), x2:X(sf), y1:MT, y2:MT+ph, class:'gridline'}));
+    const tx = el('text',{x:X(sf), y:MT+ph+22, 'text-anchor':'middle', class:'axis-lbl'});
+    tx.textContent = sf >= 1000 ? (sf/1000) + 'k' : sf; svg.appendChild(tx);
+  });
+  const xt = el('text',{x:ML+pw/2, y:MT+ph+46, 'text-anchor':'middle', class:'axis-ttl'});
+  xt.textContent = 'Parcel size — square feet (log scale)'; svg.appendChild(xt);
+  const yt = el('text',{x:15, y:MT+ph/2, 'text-anchor':'middle', class:'axis-ttl',
+    transform:`rotate(-90 15 ${MT+ph/2})`});
+  yt.textContent = '$ per sf of land'; svg.appendChild(yt);
+
+  // trend across land comps only
+  const land = pts.filter(c => c.cls === 'land');
+  const n = land.length;
+  const sx = land.reduce((s,c) => s + Math.log10(c.sf), 0);
+  const sy = land.reduce((s,c) => s + rate(c), 0);
+  const sxy = land.reduce((s,c) => s + Math.log10(c.sf) * rate(c), 0);
+  const sxx = land.reduce((s,c) => s + Math.log10(c.sf) ** 2, 0);
+  const m = (n*sxy - sx*sy) / (n*sxx - sx*sx), b = (sy - m*sx) / n;
+  const gx0 = xMin + .02, gx1 = xMax - .02;
+  svg.appendChild(el('line',{
+    x1: ML + (gx0-xMin)/(xMax-xMin)*pw, y1: Y(m*gx0 + b),
+    x2: ML + (gx1-xMin)/(xMax-xMin)*pw, y2: Y(m*gx1 + b), class:'trend'}));
+
+  // marks — 2px surface ring so overlaps stay legible
+  pts.forEach(c => {
+    const r = rate(c), cx = X(c.sf), cy = Y(r);
+    const col = c.cls === 'land' ? 'var(--cat-1)' : 'var(--cat-2)';
+    svg.appendChild(el('circle',{cx, cy, r:9, fill:'var(--panel)'}));
+    if (c.cls === 'land'){
+      svg.appendChild(el('rect',{x:cx-6.5, y:cy-6.5, width:13, height:13,
+        fill:col, stroke:'var(--panel)', 'stroke-width':2}));
+    } else {
+      svg.appendChild(el('circle',{cx, cy, r:6.5, fill:col,
+        stroke:'var(--panel)', 'stroke-width':2}));
+    }
+    const right = cx < ML + pw - 90;
+    const lb = el('text',{x: right ? cx+13 : cx-13, y: cy+4,
+      'text-anchor': right ? 'start' : 'end', class:'dot-lbl'});
+    lb.textContent = `${c.id}  $${Math.round(r).toLocaleString('en-US')}`;
+    svg.appendChild(lb);
+  });
+})();
+
+/* ---------- calculator ---------- */
+const TIERS = {
+  kal_small: {lo:1500, mid:1800, hi:2050,
+    hint:'Anchored on the Bank of Hawaii ground (33,500 sf, $2,000/sf) and ʻAlohilani (108,900 sf, $1,791/sf).',
+    note:'Small parcels on Kalakaua carry the district’s highest rates. The top of this range reflects a lessee buying its own fee — treat $2,000/sf as achievable only where the buyer has a specific strategic reason to pay it.'},
+  kal_ocean: {lo:1450, mid:1700, hi:1900,
+    hint:'Anchored on ʻAlohilani at 2490 Kalakaua — $195M for 2.5 oceanfront acres.',
+    note:'Beach frontage is the strongest single value attribute measured here, worth roughly 27% over an equivalent Kuhio Ave position.'},
+  kuhio: {lo:1150, mid:1400, hi:1600,
+    hint:'Anchored on Hilton Waikiki Beach at 2500 Kuhio — $78M for 1.27 acres, $1,410/sf.',
+    note:'The Kuhio corridor trades at a consistent discount to Kalakaua. This is the best-evidenced tier in the study for a mid-size parcel.'},
+  kal_large: {lo:1000, mid:1180, hi:1350,
+    hint:'Anchored on the Royal Hawaiian ground — $510M for 10.3 acres, $1,137/sf.',
+    note:'Large blocks trade at a per-foot discount: few buyers can write the cheque, and the site usually already carries its highest and best use.'},
+  interior: {lo:400, mid:700, hi:1000,
+    hint:'No verified comps. This range is inferred from the resort-corridor discount, not measured.',
+    note:'⚠ UNSUPPORTED BY THE COMP SET. There is no verified Apartment Precinct land sale in this study. This range is a placeholder for discussion only — do not underwrite to it. See Section 09, item 6.'}
+};
+const $ = id => document.getElementById(id);
+function calc(){
+  const sf = Math.max(0, Number($('sf').value) || 0);
+  const t = TIERS[$('tier').value];
+  const set = (vId, rId, r) => {
+    $(vId).textContent = sf ? fmtM(sf * r) : '—';
+    $(rId).textContent = '$' + r.toLocaleString('en-US') + '/sf';
+  };
+  set('vLo','rLo',t.lo); set('vMid','rMid',t.mid); set('vHi','rHi',t.hi);
+  const SCALE = 2200;
+  $('barFill').style.left  = (t.lo/SCALE*100) + '%';
+  $('barFill').style.width = ((t.hi-t.lo)/SCALE*100) + '%';
+  $('barMid').style.left   = (t.mid/SCALE*100) + '%';
+  $('tierhint').textContent = t.hint;
+  const nEl = $('calcNote');
+  nEl.textContent = t.note;
+  nEl.style.color = t.note.startsWith('⚠') ? 'var(--cat-2)' : 'var(--muted)';
+  nEl.style.fontWeight = t.note.startsWith('⚠') ? '600' : '400';
+}
+$('sf').addEventListener('input', calc);
+$('tier').addEventListener('change', calc);
+calc();
+
+/* ---------- sources ---------- */
+document.getElementById('srcList').innerHTML = SOURCES.map(([tag,label,url]) =>
+  `<li><span class="tag">${tag}</span><span><a href="${url}" target="_blank" rel="noopener">${label}</a></span></li>`
+).join('');
+</script>
