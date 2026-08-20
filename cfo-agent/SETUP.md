@@ -57,15 +57,29 @@ figures. Options: link them to Tiller if supported, drop statement PDFs into a D
 folder monthly, or exclude them from the ledger and track them as investment balances
 only. Reasonable to exclude — they're not spending accounts.
 
-## 4. Optional — Apps Script write endpoint
+## 4. Deploy the Apps Script write endpoint — not optional
 
-Needed only for rows Tiller doesn't own (Japan, cash, manual). The Drive connector
-can create files but cannot append rows to an existing Sheet, so without this the
-agent hands you a CSV to paste.
+This is what makes the ledger reconcile. The Drive connector can create files but
+cannot append rows to an existing Sheet, so without this endpoint the agent can read
+and categorize but has to hand you a CSV to paste — and a paste step is the same
+failure mode that killed the Tiller sheet.
 
-If you want true auto-append: a bound Apps Script on the ledger sheet exposing a
-`doPost` that appends rows, deployed as a web app with a shared secret. ~30 minutes.
-Ask and the agent will write it.
+`cfo-agent/apps-script/Ledger.gs` gives you:
+
+- **Idempotent upserts** keyed on `txn_id` — re-syncing an overlapping window updates
+  rows instead of duplicating them
+- **Sync watermarks** per account, so each run pulls only what's new (the first run
+  backfills; after that it's about a week of transactions at a time)
+- **A `reconcile` action** that diffs the ledger against the source and reports what's
+  missing, what drifted, and what's orphaned — the direct answer to "am I missing
+  anything"
+- **Protection for your hand edits** — if you fix an entity or category in the sheet,
+  the next sync won't revert it
+
+Setup instructions are in the file header. About 30 minutes, once:
+create the master ledger sheet → Extensions → Apps Script → paste → set a
+`SHARED_SECRET` script property → run `setupSheets()` → deploy as a Web App → put the
+`/exec` URL and secret into `config/accounts.yml` (gitignored).
 
 ## 5. Japan — the Moneytree conversation
 

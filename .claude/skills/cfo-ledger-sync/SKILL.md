@@ -20,9 +20,16 @@ reads the truth.
 If the Tiller connector isn't available, say so and stop — don't fall back to
 scraping the stale sheet and present it as current. See `cfo-agent/SETUP.md`.
 
-Pull from the last synced date forward, with **3 days of overlap**. Pending
-transactions change their amount and date when they post; overlap catches the
-revision. Dedupe on the overlap (see step 4).
+**Pull incrementally.** Ask the ledger for its watermarks first (`syncState`), then
+fetch only what's newer, with **3 days of overlap**. Pending transactions change their
+amount and date when they post; the overlap catches that revision, and the upsert
+dedupes it.
+
+This is the whole reason the ledger persists. A first run backfills history and is
+genuinely large; every run after it handles roughly a week of transactions. Without
+stored state every run is a full re-pull and a full re-classification — expensive,
+slow, and inconsistent, because the same ambiguous transaction won't get classified
+the same way twice.
 
 **Japan.** No automatic feed. Take whatever's available:
 - A CSV dropped in the configured Drive folder → parse it.
@@ -99,19 +106,31 @@ than one that stopped and said so.
 
 ## 5. Write
 
-Per the ledger decision: **Tiller's Google Sheet is the master.**
+**The ledger sheet is the book of record. Tiller is only the feed.**
 
-Be honest about the write constraint — the Google Drive connector can create files
-but cannot append rows to an existing Sheet. So:
+Keep these straight, because conflating them is what makes a ledger lose data:
 
-- **Categorization and enrichment of existing US transactions** → write back via the
-  Tiller connector (`update_transactions`). This works today.
-- **Rows Tiller doesn't own** (Japan, cash, manual) → they can't be appended to the
-  Sheet directly. Until an Apps Script endpoint exists (`cfo-agent/SETUP.md`, step 4),
-  produce them as a dated CSV in the configured Drive folder for Leo to paste in,
-  and say plainly that this step is manual.
+- **Tiller** supplies raw US transactions. It knows nothing about entities, Japan,
+  cash, receipts, or which meal was business.
+- **The master ledger sheet** persists every judgment made about those transactions.
+  That judgment work — entity assignment, categorization, transfer detection, receipt
+  matching — is the expensive part, and it is the part that must survive between runs.
 
-Never claim a write succeeded that didn't. If a row couldn't land, list it.
+Write via the Apps Script endpoint (`cfo-agent/apps-script/Ledger.gs`), using
+`action: "upsert"`. Upserts are keyed on `txn_id` and idempotent, so re-syncing an
+overlapping window updates rows in place instead of duplicating them.
+
+**Human edits win.** If Leo corrected an entity or category directly in the sheet,
+the endpoint preserves his value over a recomputed one (`respectHumanEdits`, on by
+default). A sync that silently reverts his corrections destroys his trust in the
+ledger faster than any bug, and he will stop using it.
+
+Then record the watermark: `setSyncState` per account. That watermark is what makes
+the next run cheap.
+
+If the endpoint isn't deployed yet, say so and emit a dated CSV to the Drive folder
+instead — and state plainly that the paste step is manual. Never report a write that
+didn't happen.
 
 ## 6. Report
 
